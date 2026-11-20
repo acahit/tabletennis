@@ -1,0 +1,4651 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PingPong Pro — Çevrimdışı çalışabilen Masa Tenisi Turnuva Ağacı, Çoklu Masa ve ITTF Kurallı Canlı Skor Yönetimi." />
+  <title>PingPong Pro — Masa Tenisi Turnuva &amp; Canlı Skor</title>
+  <!-- İsteğe bağlı yazı tipi (çevrimdışıysa sistem yazı tipine sorunsuz düşer) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* =========================================================================
+       1. TASARIM SİSTEMİ & TEMA DEĞİŞKENLERİ (AÇIK & KOYU TEMA)
+       ========================================================================= */
+    :root {
+      /* Açık Tema (Gündüz / Aydınlık Salon) */
+      --bg-page: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-surface-2: #f8fafc;
+      --bg-surface-3: #e2e8f0;
+      --bg-header: rgba(255, 255, 255, 0.92);
+      --bg-input: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --bg-projector: radial-gradient(circle at top, #ffffff 0%, #e2e8f0 100%);
+
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-inverse: #ffffff;
+
+      --p1-color: #0284c7;
+      --p1-hover: #0369a1;
+      --p1-soft: rgba(2, 132, 199, 0.10);
+      --p1-border: rgba(2, 132, 199, 0.35);
+      --p1-text-on: #ffffff;
+
+      --p2-color: #d97706;
+      --p2-hover: #b45309;
+      --p2-soft: rgba(217, 119, 6, 0.11);
+      --p2-border: rgba(217, 119, 6, 0.38);
+      --p2-text-on: #ffffff;
+
+      --live-color: #059669;
+      --live-soft: rgba(5, 150, 105, 0.12);
+      --live-border: rgba(5, 150, 105, 0.40);
+
+      --danger-color: #dc2626;
+      --danger-soft: rgba(220, 38, 38, 0.10);
+      --danger-border: rgba(220, 38, 38, 0.32);
+
+      --warn-color: #b45309;
+      --warn-soft: rgba(217, 119, 6, 0.12);
+      --warn-border: rgba(217, 119, 6, 0.38);
+
+      --connector-idle: #cbd5e1;
+      --connector-done: #0284c7;
+      --connector-live: #059669;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 8px 24px -6px rgba(15, 23, 42, 0.10), 0 2px 6px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 18px 40px -12px rgba(15, 23, 42, 0.16);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      color-scheme: light;
+    }
+
+    html[data-theme="dark"] {
+      /* Koyu Tema (Projektör / Arena) */
+      --bg-page: #070c18;
+      --bg-surface: #0f172a;
+      --bg-surface-2: #16223a;
+      --bg-surface-3: #1e2f50;
+      --bg-header: rgba(7, 12, 24, 0.92);
+      --bg-input: #0a1020;
+      --bg-card-hover: #142038;
+      --bg-projector: radial-gradient(circle at top, #122342 0%, #060a14 100%);
+
+      --border-subtle: #1e2d4a;
+      --border-strong: #2d4269;
+
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --text-inverse: #070c18;
+
+      --p1-color: #38bdf8;
+      --p1-hover: #7dd3fc;
+      --p1-soft: rgba(56, 189, 248, 0.14);
+      --p1-border: rgba(56, 189, 248, 0.36);
+      --p1-text-on: #061322;
+
+      --p2-color: #fbbf24;
+      --p2-hover: #fcd34d;
+      --p2-soft: rgba(251, 191, 36, 0.14);
+      --p2-border: rgba(251, 191, 36, 0.38);
+      --p2-text-on: #1a1204;
+
+      --live-color: #34d399;
+      --live-soft: rgba(52, 211, 153, 0.16);
+      --live-border: rgba(52, 211, 153, 0.45);
+
+      --danger-color: #fb7185;
+      --danger-soft: rgba(244, 63, 94, 0.14);
+      --danger-border: rgba(244, 63, 94, 0.38);
+
+      --warn-color: #fbbf24;
+      --warn-soft: rgba(245, 158, 11, 0.15);
+      --warn-border: rgba(245, 158, 11, 0.40);
+
+      --connector-idle: #263859;
+      --connector-done: #38bdf8;
+      --connector-live: #34d399;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.32);
+      --shadow-md: 0 10px 28px -8px rgba(0, 0, 0, 0.50);
+      --shadow-lg: 0 22px 48px -12px rgba(0, 0, 0, 0.65);
+      color-scheme: dark;
+    }
+
+    /* =========================================================================
+       2. TEMEL SIFIRLAMA & TİPOGRAFİ
+       ========================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.45;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* İnce kaydırma çubuğu */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-surface-2);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--p1-color);
+    }
+
+    /* =========================================================================
+       3. ANİMASYONLAR
+       ========================================================================= */
+    @keyframes ballPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.65); }
+      50% { transform: scale(1.12); box-shadow: 0 0 0 7px rgba(251, 191, 36, 0); }
+    }
+    .serve-ball {
+      animation: ballPulse 1.5s infinite;
+    }
+
+    @keyframes liveDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.82); }
+    }
+    .live-dot {
+      animation: liveDot 1.2s infinite;
+    }
+
+    @keyframes scorePop {
+      0% { transform: scale(1); }
+      38% { transform: scale(1.09); }
+      100% { transform: scale(1); }
+    }
+    .score-pop {
+      animation: scorePop 0.19s ease-out;
+    }
+
+    /* =========================================================================
+       4. YERLEŞİM & ÜST ÇUBUK (HEADER)
+       ========================================================================= */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .container {
+      max-width: 1580px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header-inner {
+      padding-top: 12px;
+      padding-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1 1 280px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.28);
+    }
+
+    .brand-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-input {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 2px 8px;
+      margin-left: -8px;
+      font-size: 1.08rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      width: 100%;
+      max-width: 420px;
+      outline: none;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+    .title-input:hover {
+      border-color: var(--border-strong);
+    }
+    .title-input:focus {
+      border-color: var(--p1-color);
+      background: var(--bg-input);
+    }
+
+    .rule-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--p1-soft);
+      color: var(--p1-color);
+      border: 1px solid var(--p1-border);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .progress-track {
+      width: 150px;
+      height: 7px;
+      background: var(--bg-surface-3);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--p1-color), var(--p2-color));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* =========================================================================
+       5. BUTONLAR & KONTROLLER
+       ========================================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      transition: background-color 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--bg-surface-2);
+      border-color: var(--border-strong);
+    }
+    .btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--p1-color);
+      border-color: transparent;
+      color: var(--p1-text-on);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.22);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--p1-hover);
+      border-color: transparent;
+    }
+
+    .btn-amber {
+      background: var(--p2-color);
+      border-color: transparent;
+      color: var(--p2-text-on);
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.22);
+    }
+    .btn-amber:hover:not(:disabled) {
+      background: var(--p2-hover);
+      border-color: transparent;
+    }
+
+    .btn-live {
+      background: var(--live-color);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.26);
+    }
+    html[data-theme="dark"] .btn-live {
+      color: #031f16;
+    }
+    .btn-live:hover:not(:disabled) {
+      filter: brightness(1.06);
+      border-color: transparent;
+    }
+
+    .btn-danger-soft {
+      background: var(--danger-soft);
+      border-color: var(--danger-border);
+      color: var(--danger-color);
+    }
+    .btn-danger-soft:hover:not(:disabled) {
+      filter: brightness(0.96);
+    }
+
+    .btn-p1-soft {
+      background: var(--p1-soft);
+      border-color: var(--p1-border);
+      color: var(--p1-color);
+    }
+
+    .btn-danger {
+      background: var(--danger-color);
+      border-color: transparent;
+      color: #ffffff;
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.74rem;
+      border-radius: 8px;
+    }
+
+    .btn-lg {
+      padding: 12px 18px;
+      font-size: 0.88rem;
+      border-radius: 12px;
+    }
+
+    .segmented {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      border-radius: 11px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      gap: 2px;
+    }
+    .segmented button {
+      padding: 5px 10px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .segmented button:hover {
+      color: var(--text-primary);
+    }
+    .segmented button.active {
+      background: var(--p1-color);
+      color: var(--p1-text-on);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Sekme Navigasyonu */
+    .tab-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 11px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-surface-2);
+    }
+    .tab-btn.active {
+      background: var(--p1-color);
+      border-color: transparent;
+      color: var(--p1-text-on);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.22);
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      border-radius: 999px;
+      background: var(--warn-soft);
+      color: var(--warn-color);
+    }
+    .tab-btn.active .badge-pill {
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--p1-text-on);
+    }
+
+    .dot-live {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--live-color);
+      display: inline-block;
+    }
+    .tab-btn.active .dot-live {
+      background: #ffffff;
+    }
+
+    /* =========================================================================
+       6. ANA İÇERİK & KARTLAR
+       ========================================================================= */
+    main.app-main {
+      flex: 1;
+      padding: 18px 0 36px;
+    }
+
+    .surface-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stack-md {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Şampiyon Banner */
+    .champion-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(120deg, var(--p2-soft), var(--p1-soft));
+      border: 1px solid var(--p2-border);
+      box-shadow: var(--shadow-md);
+    }
+
+    .champion-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .champion-trophy {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+    }
+
+    /* =========================================================================
+       7. TURNUVA AĞACI (BRACKET)
+       ========================================================================= */
+    .bracket-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1 1 260px;
+      max-width: 380px;
+    }
+
+    .search-box svg.search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .text-input, .textarea-input, .select-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.86rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .text-input:focus, .textarea-input:focus, .select-input:focus {
+      border-color: var(--p1-color);
+      box-shadow: 0 0 0 3px var(--p1-soft);
+    }
+    .text-input::placeholder, .textarea-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-input {
+      padding-left: 36px;
+      padding-right: 34px;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      padding: 4px;
+      border-radius: 6px;
+    }
+    .search-clear:hover {
+      color: var(--text-primary);
+      background: var(--bg-surface-2);
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .bracket-scroll {
+      position: relative;
+      overflow-x: auto;
+      padding: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bracket-canvas {
+      position: relative;
+      display: inline-flex;
+      min-width: 100%;
+    }
+
+    .bracket-svg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bracket-columns {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      gap: 48px;
+    }
+
+    .bracket-col {
+      display: flex;
+      flex-direction: column;
+      width: 274px;
+      flex-shrink: 0;
+    }
+
+    .bracket-col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .bracket-col-title {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--p1-color);
+    }
+    .bracket-col-title.is-final {
+      color: var(--p2-color);
+    }
+
+    .bracket-col-count {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .bracket-col-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 16px;
+    }
+
+    /* Maç Kartı */
+    .match-card {
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s, opacity 0.16s;
+    }
+    .match-card:hover {
+      border-color: var(--p1-color);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    .match-card.status-live {
+      border-color: var(--live-color);
+      box-shadow: 0 0 0 1px var(--live-border), var(--shadow-md);
+    }
+    .match-card.status-ready {
+      border-color: var(--p2-border);
+    }
+    .match-card.is-highlighted {
+      border-color: var(--p2-color);
+      box-shadow: 0 0 0 3px var(--p2-soft), var(--shadow-md);
+    }
+    .match-card.is-dimmed {
+      opacity: 0.34;
+    }
+
+    .match-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: var(--bg-surface-2);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.66rem;
+      font-weight: 800;
+    }
+    .status-badge.live { background: var(--live-soft); color: var(--live-color); }
+    .status-badge.completed { background: var(--p1-soft); color: var(--p1-color); }
+    .status-badge.ready { background: var(--warn-soft); color: var(--warn-color); }
+    .status-badge.pending { background: var(--bg-surface-3); color: var(--text-muted); }
+
+    .match-player-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .match-player-row:last-of-type {
+      border-bottom: none;
+    }
+    .match-player-row.is-winner {
+      background: var(--p1-soft);
+    }
+    .match-player-row.is-match-hit {
+      background: var(--p2-soft);
+    }
+
+    .player-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .winner-bar {
+      width: 4px;
+      height: 16px;
+      border-radius: 99px;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .match-player-row.is-winner .winner-bar {
+      background: var(--p1-color);
+    }
+
+    .player-name-text {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .match-player-row.is-winner .player-name-text {
+      font-weight: 800;
+    }
+    .player-name-text.is-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .player-score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .set-box {
+      min-width: 24px;
+      text-align: center;
+      padding: 2px 7px;
+      border-radius: 7px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      background: var(--bg-surface-2);
+      color: var(--text-secondary);
+    }
+    .match-player-row.is-winner .set-box {
+      background: var(--p1-color);
+      color: var(--p1-text-on);
+    }
+    .live-pt-mini {
+      min-width: 24px;
+      text-align: center;
+      padding: 2px 6px;
+      border-radius: 7px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      background: var(--live-soft);
+      color: var(--live-color);
+    }
+
+    .match-card-foot {
+      padding: 6px 10px;
+      background: var(--bg-surface-2);
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* =========================================================================
+       8. CANLI SKOR TABELASI & ÇOKLU MASA
+       ========================================================================= */
+    .tables-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .table-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .table-pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+    .table-pill.active {
+      border-color: var(--p1-color);
+      background: var(--p1-soft);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .table-pill-sub {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .scoreboard-shell {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .scoreboard-shell.projector-mode {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 60 !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: var(--bg-projector) !important;
+      overflow-y: auto !important;
+      padding: 20px 28px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .scoreboard-shell.projector-mode .score-number {
+      font-size: clamp(7rem, 17vw, 15.5rem);
+    }
+
+    .live-empty {
+      padding: 56px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .live-empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: var(--p1-soft);
+      border: 1px solid var(--p1-border);
+      color: var(--p1-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .live-active {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .live-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .live-meta-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--live-soft);
+      border: 1px solid var(--live-border);
+      color: var(--live-color);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 10px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .live-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* Durum / Mola / Saha Değişimi Uyarı Şeritleri */
+    .live-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 14px;
+    }
+    .live-banner.finished {
+      background: var(--live-soft);
+      border: 1px solid var(--live-border);
+    }
+    .live-banner.timeout {
+      background: var(--warn-soft);
+      border: 1px solid var(--warn-border);
+    }
+
+    .status-strip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .status-pill.deuce { background: var(--warn-soft); border: 1px solid var(--warn-border); color: var(--warn-color); }
+    .status-pill.setpoint { background: var(--p1-soft); border: 1px solid var(--p1-border); color: var(--p1-color); }
+    .status-pill.matchpoint { background: var(--danger-soft); border: 1px solid var(--danger-border); color: var(--danger-color); }
+    .status-pill.swap-alert { background: var(--live-soft); border: 1px solid var(--live-border); color: var(--live-color); }
+
+    /* Dev Skor Kartları */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 780px) {
+      .score-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .score-card {
+      position: relative;
+      border-radius: 20px;
+      border: 2px solid var(--border-subtle);
+      background: var(--bg-surface-2);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .score-card.side-left {
+      border-color: var(--p1-border);
+    }
+    .score-card.side-right {
+      border-color: var(--p2-border);
+    }
+    .score-card.is-serving {
+      box-shadow: var(--shadow-md);
+    }
+
+    .score-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .side-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .side-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .side-left .side-tag { color: var(--p1-color); }
+    .side-right .side-tag { color: var(--p2-color); }
+
+    .serve-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--warn-soft);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-color);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .serve-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #f59e0b;
+      display: inline-block;
+    }
+
+    .score-player-name {
+      margin: 6px 0 0;
+      font-size: clamp(1.35rem, 2.4vw, 2.15rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sets-counter-box {
+      flex-shrink: 0;
+      min-width: 74px;
+      text-align: center;
+      padding: 8px 14px;
+      border-radius: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+    }
+
+    .sets-counter-label {
+      font-size: 0.64rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .sets-counter-value {
+      font-size: 2.15rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .side-left .sets-counter-value { color: var(--p1-color); }
+    .side-right .sets-counter-value { color: var(--p2-color); }
+
+    /* Tıklanabilir Dev Puan Alanı */
+    .score-tap-zone {
+      margin: 14px 0;
+      padding: 10px 0;
+      border-radius: 16px;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      transition: background-color 0.12s;
+    }
+    .score-tap-zone:hover {
+      background: rgba(148, 163, 184, 0.08);
+    }
+    .score-tap-zone:active {
+      transform: scale(0.99);
+    }
+
+    .score-number {
+      font-size: clamp(5.5rem, 11.5vw, 10.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--text-primary);
+    }
+
+    .score-tap-hint {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .score-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 10px;
+    }
+
+    .btn-minus {
+      padding: 15px 10px;
+      border-radius: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      font-weight: 900;
+      transition: all 0.12s;
+    }
+    .btn-minus:hover:not(:disabled) {
+      background: var(--bg-surface-3);
+    }
+    .btn-minus:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+
+    .btn-plus {
+      padding: 15px 14px;
+      border-radius: 14px;
+      font-size: clamp(1.25rem, 2vw, 1.65rem);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      transition: all 0.12s;
+    }
+    .btn-plus:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .side-left .btn-plus {
+      background: var(--p1-color);
+      color: var(--p1-text-on);
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.25);
+    }
+    .side-left .btn-plus:hover:not(:disabled) {
+      background: var(--p1-hover);
+    }
+
+    .side-right .btn-plus {
+      background: var(--p2-color);
+      color: var(--p2-text-on);
+      box-shadow: 0 8px 20px rgba(217, 119, 6, 0.25);
+    }
+    .side-right .btn-plus:hover:not(:disabled) {
+      background: var(--p2-hover);
+    }
+
+    .card-footer-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+
+    .live-bottom-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .set-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .set-chip {
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .kbd-hints {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* =========================================================================
+       9. KUYRUK & İÇE AKTAR SEKMELERİ
+       ========================================================================= */
+    .queue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+
+    .queue-card {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .queue-card.is-live {
+      border-color: var(--live-color);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 1px var(--live-border), var(--shadow-sm);
+    }
+
+    .queue-players-box {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 11px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .import-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 920px) {
+      .import-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .import-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--border-strong);
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      background: var(--bg-surface-2);
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+    }
+    .drop-zone:hover, .drop-zone.drag-active {
+      border-color: var(--p1-color);
+      background: var(--p1-soft);
+    }
+
+    /* =========================================================================
+       10. MODALLAR & TOAST
+       ========================================================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(7, 12, 24, 0.72);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .modal-panel {
+      width: 100%;
+      max-width: 540px;
+      border-radius: 20px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface-2);
+    }
+
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-match-summary {
+      display: grid;
+      grid-template-columns: 3fr 1.2fr 3fr;
+      align-items: center;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+
+    .set-row-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 2fr 0.6fr 2fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .set-input {
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 8px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 520px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+    }
+
+    .toggle-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--p1-color);
+      cursor: pointer;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 380px;
+      width: calc(100vw - 36px);
+      pointer-events: none;
+    }
+
+    .toast-item {
+      pointer-events: auto;
+      padding: 12px 15px;
+      border-radius: 13px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .toast-item.toast-enter {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .toast-item.success { border-color: var(--live-border); border-left: 4px solid var(--live-color); }
+    .toast-item.error { border-color: var(--danger-border); border-left: 4px solid var(--danger-color); }
+    .toast-item.warning { border-color: var(--warn-border); border-left: 4px solid var(--warn-color); }
+    .toast-item.info { border-color: var(--p1-border); border-left: 4px solid var(--p1-color); }
+
+    /* Yardımcı metin sınıfları */
+    .muted { color: var(--text-secondary); }
+    .text-xs { font-size: 0.76rem; }
+    .text-sm { font-size: 0.85rem; }
+    .font-bold { font-weight: 700; }
+    .font-black { font-weight: 900; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .flex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================= -->
+  <!-- ÜST KONTROL ÇUBUĞU (HEADER)                               -->
+  <!-- ========================================================= -->
+  <header class="app-header">
+    <div class="container header-inner">
+      <div class="header-top">
+        <!-- Sol: Logo & Başlık -->
+        <div class="brand-group">
+          <div class="brand-logo" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="10" r="7" />
+              <path d="M15 15l5.5 5.5" stroke-width="2.6" />
+              <circle cx="19" cy="6" r="2.2" fill="#fbbf24" stroke="#fbbf24" />
+            </svg>
+          </div>
+          <div class="brand-meta">
+            <div class="title-row">
+              <h1 class="sr-only">PingPong Pro Masa Tenisi Turnuva ve Canlı Skor Yönetimi</h1>
+              <input
+                id="tournamentTitleInput"
+                type="text"
+                aria-label="Turnuva Başlığı"
+                class="title-input"
+                value="Masa Tenisi Turnuvası"
+              />
+              <span id="headerRuleBadge" class="rule-chip">Bo3 • 11 Sayı</span>
+            </div>
+            <div class="progress-row">
+              <div class="progress-track">
+                <div id="progressBarFill" class="progress-fill"></div>
+              </div>
+              <span id="progressText" class="progress-label tabular-nums">0 / 0 Maç (%0)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sağ: Hızlı Format Seçici, Kurallar, Tema, Ses, Yedek, Sıfırla -->
+        <div class="header-actions">
+          <!-- Hızlı Set Sayısı Seçici -->
+          <div class="segmented" role="group" aria-label="Set Formatı">
+            <button id="btnBo1" onclick="setBestOf(1)" title="Tek set (1 set alan kazanır)">1 Set</button>
+            <button id="btnBo3" onclick="setBestOf(3)" title="3 set üzerinden 2 alan kazanır">Bo3</button>
+            <button id="btnBo5" onclick="setBestOf(5)" title="5 set üzerinden 3 alan kazanır">Bo5</button>
+            <button id="btnBo7" onclick="setBestOf(7)" title="7 set üzerinden 4 alan kazanır">Bo7</button>
+          </div>
+
+          <!-- Maç Kuralları Modalı -->
+          <button onclick="openRulesModal()" class="btn" title="Set sayısı, set puanı, servis ve saha değişimi kurallarını ayarla">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            <span>Kurallar</span>
+          </button>
+
+          <!-- Tema Değiştir (Açık / Koyu) -->
+          <button id="themeToggleBtn" onclick="toggleTheme()" class="btn" title="Açık / Koyu tema değiştir">
+            <span id="themeIconWrap" style="display:inline-flex;"></span>
+            <span id="themeBtnLabel">Açık Tema</span>
+          </button>
+
+          <!-- Ses Efektleri -->
+          <button id="soundToggleBtn" onclick="toggleSound()" class="btn" title="Skor ses efektlerini aç/kapat">
+            <span id="soundIconWrap" style="display:inline-flex;"></span>
+            <span id="soundBtnLabel">Ses</span>
+          </button>
+
+          <!-- JSON Yedek İndir -->
+          <button onclick="exportTournamentJSON()" class="btn" title="Turnuva verilerini JSON dosyası olarak indir">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
+            </svg>
+            <span>Yedek</span>
+          </button>
+
+          <!-- Sıfırla -->
+          <button
+            onclick="openConfirmModal('Turnuvayı Sıfırla', 'Tüm maç skorları ve aktif masalar sıfırlanacak (1. tur oyuncuları korunur). Devam etmek istiyor musunuz?', resetAllScores)"
+            class="btn btn-danger-soft"
+            title="Tüm skorları sıfırla"
+          >
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>Sıfırla</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sekme Navigasyonu -->
+      <nav class="tab-nav" aria-label="Ana Sekmeler">
+        <button data-tab="bracket" onclick="switchTab('bracket')" class="tab-btn active">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h5v4H4V6zm0 8h5v4H4v-4zm11-4h5v4h-5v-4zM9 8h3v8H9m3-4h3" />
+          </svg>
+          Turnuva Ağacı
+        </button>
+
+        <button data-tab="live" onclick="switchTab('live')" class="tab-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="2" y="4" width="20" height="16" rx="3" />
+            <path d="M12 4v16" />
+          </svg>
+          Canlı Skor Tabelası
+          <span id="liveTabBadge" class="hidden dot-live live-dot"></span>
+          <span id="liveActiveCountBadge" class="hidden badge-pill tabular-nums">0</span>
+        </button>
+
+        <button data-tab="queue" onclick="switchTab('queue')" class="tab-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+          </svg>
+          Sıradaki Maçlar
+          <span id="queueCountBadge" class="badge-pill tabular-nums">0</span>
+        </button>
+
+        <button data-tab="import" onclick="switchTab('import')" class="tab-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          Kurulum / İçe Aktar
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- ANA İÇERİK ALANI                                          -->
+  <!-- ========================================================= -->
+  <main class="app-main">
+    <div class="container">
+
+      <!-- ======================================================= -->
+      <!-- SEKME 1: TURNUVA AĞACI (BRACKET)                        -->
+      <!-- ======================================================= -->
+      <section id="tab-bracket" class="tab-panel stack-md">
+        <!-- Şampiyon Banner'ı -->
+        <div id="championBanner" class="champion-banner hidden">
+          <div class="champion-left">
+            <div class="champion-trophy">
+              <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
+              </svg>
+            </div>
+            <div>
+              <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--p2-color);">Turnuva Şampiyonu</div>
+              <div id="championName" style="font-size:1.65rem;font-weight:900;letter-spacing:-0.02em;">—</div>
+              <div id="championSubtext" class="text-sm muted">Tebrikler! Tüm maçlar tamamlandı.</div>
+            </div>
+          </div>
+          <span class="rule-chip" style="background:var(--p2-soft);color:var(--p2-color);border-color:var(--p2-border);">Final Tamamlandı</span>
+        </div>
+
+        <!-- Ağaç Araç Çubuğu -->
+        <div class="surface-card bracket-toolbar">
+          <div class="search-box">
+            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              id="bracketSearchInput"
+              type="text"
+              placeholder="Oyuncu ara veya vurgula (Türkçe karakter destekli)..."
+              class="text-input search-input"
+              oninput="handleBracketSearch(this.value)"
+            />
+            <button id="clearSearchBtn" onclick="clearBracketSearch()" class="search-clear hidden" title="Aramayı temizle">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="legend-row">
+            <span class="legend-item"><span class="legend-dot" style="background:var(--live-color);"></span> Oynanıyor</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--p2-color);"></span> Hazır</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--p1-color);"></span> Tamamlandı</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--text-muted);"></span> Bekliyor</span>
+            <span class="muted">|</span>
+            <span class="font-bold">Skor girmek için herhangi bir maça tıklayın</span>
+          </div>
+        </div>
+
+        <!-- Bracket Tuvali -->
+        <div id="bracketScrollContainer" class="bracket-scroll">
+          <div id="bracketCanvas" class="bracket-canvas">
+            <svg id="bracketConnectorsSvg" class="bracket-svg"></svg>
+            <div id="bracketColumns" class="bracket-columns"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- SEKME 2: CANLI SKOR TABELASI (ÇOKLU MASA MODU)          -->
+      <!-- ======================================================= -->
+      <section id="tab-live" class="tab-panel hidden">
+        <!-- Çoklu Masa Seçim Çubuğu -->
+        <div class="tables-bar">
+          <div id="tableTabsContainer" class="table-tabs"></div>
+          <div class="flex-row">
+            <button onclick="addNewTable()" class="btn btn-sm" title="Yeni masa ekle (en fazla 8 masa)">
+              + Masa Ekle
+            </button>
+            <button id="removeTableBtn" onclick="removeCurrentTable()" class="btn btn-sm btn-danger-soft hidden" title="Bu boş masayı kaldır">
+              Masayı Sil
+            </button>
+          </div>
+        </div>
+
+        <div id="liveScoreboardContainer" class="scoreboard-shell">
+          <!-- Aktif Maç Yok -->
+          <div id="liveEmptyState" class="live-empty">
+            <div class="live-empty-icon">
+              <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <rect x="2" y="5" width="20" height="14" rx="2" />
+                <path d="M12 5v14M2 12h20" />
+              </svg>
+            </div>
+            <div>
+              <h2 id="liveEmptyTitle" style="margin:0;font-size:1.25rem;font-weight:800;">Bu Masada Aktif Maç Yok</h2>
+              <p class="text-sm muted" style="margin:6px auto 0;max-width:440px;">
+                Turnuva ağacından veya Sıradaki Maçlar listesinden bir eşleşme seçerek canlı skor tabelasını hemen başlatabilirsiniz.
+              </p>
+            </div>
+            <div class="flex-row" style="justify-content:center;">
+              <button onclick="switchTab('queue')" class="btn btn-primary btn-lg">Sıradaki Maçlara Git</button>
+              <button onclick="switchTab('bracket')" class="btn btn-lg">Turnuva Ağacına Dön</button>
+            </div>
+          </div>
+
+          <!-- Aktif Maç Skor Tabelası -->
+          <div id="liveActiveView" class="live-active hidden">
+            <!-- Üst Bilgi Barı -->
+            <div class="live-topbar">
+              <div class="live-meta-group">
+                <span id="liveTableBadge" class="live-badge">
+                  <span class="dot-live live-dot"></span>
+                  <span id="liveTableBadgeText">Masa 1 • Canlı</span>
+                </span>
+                <div>
+                  <div id="liveMatchMeta" style="font-size:0.96rem;font-weight:800;">Maç #1 • Son 16 • 1. Set</div>
+                  <div id="liveRuleInfo" class="text-xs muted">Bo3 • 2 Set Alan • 11 Sayı (2 Fark)</div>
+                </div>
+                <button id="liveTimerBtn" onclick="toggleLiveTimer()" class="timer-pill tabular-nums" title="Maç kronometresini duraklat / devam ettir">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="13" r="8" />
+                    <path stroke-linecap="round" d="M12 9v4l2.5 1.5M9 2h6" />
+                  </svg>
+                  <span id="liveTimerText">00:00</span>
+                </button>
+              </div>
+
+              <!-- Masa Kontrolleri -->
+              <div class="live-controls">
+                <button onclick="swapLiveSides(true)" class="btn" title="Oyuncuların masa tarafını değiştir (Klavye: S)">
+                  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                  </svg>
+                  Saha Değiştir
+                </button>
+
+                <button onclick="toggleInitialServer()" class="btn" title="İlk servisi atacak oyuncuyu değiştir">
+                  <span class="serve-dot"></span>
+                  İlk Servis
+                </button>
+
+                <button id="undoLiveBtn" onclick="undoLiveAction()" class="btn" title="Son hareketi geri al (Ctrl+Z veya Z)">
+                  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l5-5m-5 5l5 5" />
+                  </svg>
+                  Geri Al
+                </button>
+
+                <button onclick="openRulesModal()" class="btn" title="Set sayısı ve puan kurallarını ayarla">
+                  Kurallar
+                </button>
+
+                <button id="projectorToggleBtn" onclick="toggleProjectorMode()" class="btn btn-p1-soft" title="Tam ekran projektör görünümü (Klavye: F)">
+                  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
+                  </svg>
+                  <span id="projectorBtnText">Projektör Modu</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Mola (Timeout) Geri Sayım Şeridi -->
+            <div id="liveTimeoutBanner" class="live-banner timeout hidden">
+              <div class="flex-row">
+                <strong id="timeoutBannerTitle" style="color:var(--warn-color);">MOLA</strong>
+                <span id="timeoutBannerCountdown" class="tabular-nums font-black" style="font-size:1.3rem;">01:00</span>
+              </div>
+              <button onclick="stopTimeout()" class="btn btn-sm">Molayı Bitir</button>
+            </div>
+
+            <!-- Maç Tamamlandı Banner'ı -->
+            <div id="liveMatchFinishedBanner" class="live-banner finished hidden">
+              <div class="flex-row">
+                <div style="width:40px;height:40px;border-radius:11px;background:var(--live-color);color:var(--text-inverse);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:var(--live-color);">Maç Hedef Sete Ulaştı</div>
+                  <div id="liveWinnerHeadline" style="font-size:1.15rem;font-weight:900;">Kazanan: —</div>
+                </div>
+              </div>
+              <div class="flex-row">
+                <button onclick="undoLiveAction()" class="btn">Son Sayıyı Geri Al</button>
+                <button onclick="commitLiveMatchToBracket()" class="btn btn-live btn-lg">Maçı Bitir ve Ağaca İşle</button>
+              </div>
+            </div>
+
+            <!-- DEUCE / SET NOKTASI / MAÇ NOKTASI / SAHA DEĞİŞİMİ ŞERİDİ -->
+            <div class="status-strip">
+              <span id="liveStatusPill" class="status-pill hidden"></span>
+              <span id="liveSwapNoticePill" class="status-pill swap-alert hidden"></span>
+            </div>
+
+            <!-- DEV SKOR KARTLARI (SOL & SAĞ OYUNCU) -->
+            <div class="score-grid">
+              <!-- SOL SAHA -->
+              <div id="leftPlayerCard" class="score-card side-left">
+                <div class="score-card-head">
+                  <div style="min-width:0;flex:1;">
+                    <div class="side-tag-row">
+                      <span class="side-tag">Sol Saha</span>
+                      <span id="leftServeBadge" class="serve-badge hidden">
+                        <span class="serve-dot serve-ball"></span>
+                        <span id="leftServeText">SERVİS</span>
+                      </span>
+                    </div>
+                    <h2 id="leftPlayerName" class="score-player-name">—</h2>
+                  </div>
+                  <div class="sets-counter-box">
+                    <div class="sets-counter-label">SET</div>
+                    <div id="leftPlayerSets" class="sets-counter-value tabular-nums">0</div>
+                  </div>
+                </div>
+
+                <div class="score-tap-zone" onclick="adjustLivePoint('left', 1)" title="Sayı eklemek için dokunun (+1)">
+                  <div id="leftPlayerScore" class="score-number tabular-nums">0</div>
+                  <div class="score-tap-hint">Sayı eklemek için rakama veya butona dokunun</div>
+                </div>
+
+                <div>
+                  <div class="score-btn-row">
+                    <button onclick="adjustLivePoint('left', -1)" class="btn-minus" title="Sol oyuncu -1 (Klavye: A)">-1</button>
+                    <button id="leftPlusBtn" onclick="adjustLivePoint('left', 1)" class="btn-plus" title="Sol oyuncu +1 (Klavye: Q veya Sol Ok)">+1 SAYI</button>
+                  </div>
+                  <div class="card-footer-tools">
+                    <span id="leftTimeoutStatus">Mola Hakkı: 1</span>
+                    <button id="leftTimeoutBtn" onclick="requestTimeout('left')" class="btn btn-sm">Mola (60 sn)</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SAĞ SAHA -->
+              <div id="rightPlayerCard" class="score-card side-right">
+                <div class="score-card-head">
+                  <div style="min-width:0;flex:1;">
+                    <div class="side-tag-row">
+                      <span class="side-tag">Sağ Saha</span>
+                      <span id="rightServeBadge" class="serve-badge hidden">
+                        <span class="serve-dot serve-ball"></span>
+                        <span id="rightServeText">SERVİS</span>
+                      </span>
+                    </div>
+                    <h2 id="rightPlayerName" class="score-player-name">—</h2>
+                  </div>
+                  <div class="sets-counter-box">
+                    <div class="sets-counter-label">SET</div>
+                    <div id="rightPlayerSets" class="sets-counter-value tabular-nums">0</div>
+                  </div>
+                </div>
+
+                <div class="score-tap-zone" onclick="adjustLivePoint('right', 1)" title="Sayı eklemek için dokunun (+1)">
+                  <div id="rightPlayerScore" class="score-number tabular-nums">0</div>
+                  <div class="score-tap-hint">Sayı eklemek için rakama veya butona dokunun</div>
+                </div>
+
+                <div>
+                  <div class="score-btn-row">
+                    <button onclick="adjustLivePoint('right', -1)" class="btn-minus" title="Sağ oyuncu -1 (Klavye: L)">-1</button>
+                    <button id="rightPlusBtn" onclick="adjustLivePoint('right', 1)" class="btn-plus" title="Sağ oyuncu +1 (Klavye: P veya Sağ Ok)">+1 SAYI</button>
+                  </div>
+                  <div class="card-footer-tools">
+                    <span id="rightTimeoutStatus">Mola Hakkı: 1</span>
+                    <button id="rightTimeoutBtn" onclick="requestTimeout('right')" class="btn btn-sm">Mola (60 sn)</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alt Bar: Set Geçmişi + Klavye Kısayolları + Masayı Boşalt -->
+            <div class="live-bottom-bar">
+              <div class="flex-row">
+                <span class="text-xs font-bold muted" style="text-transform:uppercase;letter-spacing:0.06em;">Set Geçmişi:</span>
+                <div id="liveSetHistoryChips" class="set-chips"></div>
+              </div>
+
+              <div class="kbd-hints">
+                <span><kbd>Q</kbd> / <kbd>←</kbd> Sol +1</span>
+                <span><kbd>A</kbd> Sol -1</span>
+                <span><kbd>P</kbd> / <kbd>→</kbd> Sağ +1</span>
+                <span><kbd>L</kbd> Sağ -1</span>
+                <span><kbd>S</kbd> Saha</span>
+                <span><kbd>Z</kbd> Geri Al</span>
+                <span><kbd>F</kbd> Tam Ekran</span>
+              </div>
+
+              <div class="flex-row">
+                <button
+                  onclick="openConfirmModal('Canlı Maçı İptal Et', 'Bu masadaki mevcut ilerleme kaydedilmeden kapatılacak ve maç tekrar hazır durumuna dönecek. Emin misiniz?', cancelLiveMatch)"
+                  class="btn btn-danger-soft btn-sm"
+                >
+                  Masayı Boşalt
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- SEKME 3: SIRADAKİ MAÇLAR (MASA KUYRUĞU)                 -->
+      <!-- ======================================================= -->
+      <section id="tab-queue" class="tab-panel hidden stack-md">
+        <div class="surface-card flex-between" style="padding:16px 18px;">
+          <div>
+            <h2 style="margin:0;font-size:1.1rem;font-weight:800;">Sıradaki Maçlar (Masa Kuyruğu)</h2>
+            <p class="text-sm muted" style="margin:3px 0 0;">Her iki oyuncusu belli olan ve oynanmayı bekleyen tüm eşleşmeler tur sırasına göre listelenir.</p>
+          </div>
+          <span id="queueSummaryBadge" class="rule-chip" style="background:var(--warn-soft);color:var(--warn-color);border-color:var(--warn-border);">0 Maç Hazır</span>
+        </div>
+
+        <div id="queueListContainer" class="queue-grid"></div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- SEKME 4: KURULUM / İÇE AKTAR                            -->
+      <!-- ======================================================= -->
+      <section id="tab-import" class="tab-panel hidden stack-md">
+        <!-- Hızlı Örnek Turnuva Kartı -->
+        <div class="surface-card flex-between" style="padding:18px 20px;background:linear-gradient(120deg, var(--p1-soft), var(--p2-soft));border-color:var(--p1-border);">
+          <div>
+            <h2 style="margin:0;font-size:1.06rem;font-weight:800;">Hızlı Test İçin Örnek Turnuvalar</h2>
+            <p class="text-sm muted" style="margin:4px 0 0;">Uygulamayı anında denemek için hazır 8, 16 veya 32 kişilik turnuva yükleyebilirsiniz.</p>
+          </div>
+          <div class="flex-row">
+            <button onclick="loadSampleTournament(8)" class="btn">8 Kişilik</button>
+            <button onclick="loadSampleTournament(16)" class="btn btn-primary">16 Kişilik</button>
+            <button onclick="loadSampleTournament(32)" class="btn btn-amber">32 Kişilik</button>
+          </div>
+        </div>
+
+        <div class="import-grid">
+          <!-- SOL PANEL: İSİM LİSTESİNDEN HIZLI AĞAÇ OLUŞTUR (Yarışma günü en sık kullanılan!) -->
+          <div class="surface-card import-card">
+            <div>
+              <div class="text-xs font-bold" style="color:var(--p2-color);text-transform:uppercase;letter-spacing:0.06em;">Hızlı Turnuva Kurulumu • Otomatik BAY</div>
+              <h3 style="margin:4px 0 0;font-size:1.12rem;font-weight:800;">İsim Listesinden Ağaç Oluştur</h3>
+              <p class="text-xs muted" style="margin:4px 0 0;">
+                4 ile 64 arasında katılımcıyı her satıra bir isim gelecek şekilde yazın. Eksik slotlara seribaşı düzeninde dengeli BAY dağıtılır.
+              </p>
+            </div>
+
+            <div class="settings-grid">
+              <div>
+                <label for="quickTitleInput" class="field-label">Turnuva Adı</label>
+                <input id="quickTitleInput" type="text" value="Masa Tenisi Turnuvası" class="text-input" />
+              </div>
+              <div style="display:flex;align-items:flex-end;">
+                <label class="toggle-row" style="width:100%;padding:8px 12px;">
+                  <span class="text-xs font-bold">Rastgele Kura Çek</span>
+                  <input id="quickShuffleCheck" type="checkbox" checked />
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex-between" style="margin-bottom:6px;">
+                <label for="quickPlayersInput" class="field-label" style="margin:0;">Katılımcı Listesi (Her satıra 1 oyuncu)</label>
+                <span id="quickPlayerCount" class="text-xs font-bold tabular-nums" style="color:var(--p2-color);">0 Oyuncu</span>
+              </div>
+              <textarea
+                id="quickPlayersInput"
+                rows="9"
+                oninput="updateQuickPlayerCount()"
+                placeholder="Ahmet Yılmaz&#10;Mehmet Kaya&#10;Zeynep Arslan&#10;Elif Şahin&#10;Can Demir&#10;Burak Çelik&#10;Selin Koç&#10;Emre Aydın"
+                class="textarea-input"
+              ></textarea>
+            </div>
+
+            <div class="flex-between" style="margin-top:auto;">
+              <span class="text-xs muted">Min: 4, Maks: 64 katılımcı</span>
+              <button onclick="createFromPlayerList()" class="btn btn-amber btn-lg">Turnuva Ağacı Oluştur</button>
+            </div>
+          </div>
+
+          <!-- SAĞ PANEL: CHALLONGE JSON / CSV / YEDEK İÇE AKTAR -->
+          <div class="surface-card import-card">
+            <div>
+              <div class="text-xs font-bold" style="color:var(--p1-color);text-transform:uppercase;letter-spacing:0.06em;">Challonge &amp; Yedek Desteği</div>
+              <h3 style="margin:4px 0 0;font-size:1.12rem;font-weight:800;">JSON veya CSV İçe Aktar</h3>
+              <p class="text-xs muted" style="margin:4px 0 0;">
+                Challonge API v1 JSON çıktısını, CSV dışa aktarımını veya bu uygulamadan aldığınız JSON yedeğini sürükleyip bırakın ya da yapıştırın.
+              </p>
+            </div>
+
+            <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="drop-zone">
+              <input id="fileInput" type="file" accept=".json,.csv,.txt" class="hidden" onchange="handleFileSelect(event)" />
+              <svg width="34" height="34" fill="none" stroke="var(--p1-color)" stroke-width="1.8" viewBox="0 0 24 24" style="margin:0 auto 6px;display:block;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <div class="text-sm font-bold">JSON veya CSV dosyasını buraya sürükleyin</div>
+              <div class="text-xs muted" style="margin-top:2px;">veya dosya seçmek için tıklayın</div>
+            </div>
+
+            <div>
+              <div class="flex-between" style="margin-bottom:6px;">
+                <label for="importRawText" class="field-label" style="margin:0;">Veya JSON / CSV İçeriğini Yapıştırın</label>
+                <button onclick="fillSampleChallongeCSV()" class="text-xs font-bold" style="color:var(--p1-color);">Örnek CSV Doldur</button>
+              </div>
+              <textarea
+                id="importRawText"
+                rows="6"
+                placeholder='Round,Match,Player 1,Player 2,Scores,Winner&#10;1,1,Ahmet Yılmaz,Mehmet Kaya,"11-8, 9-11, 11-6",Ahmet Yılmaz'
+                class="textarea-input"
+                style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.78rem;"
+              ></textarea>
+            </div>
+
+            <div class="flex-between" style="margin-top:auto;">
+              <span class="text-xs muted">CSV başlıkları otomatik tanınır (TR/EN)</span>
+              <button onclick="processRawImport()" class="btn btn-primary btn-lg">Veriyi İçe Aktar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 1: MAÇ DETAY & HIZLI SKOR GİRİŞİ                    -->
+  <!-- ========================================================= -->
+  <div id="matchModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeMatchModal()">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <div id="modalMatchTitle" style="font-size:1rem;font-weight:800;">Maç #1</div>
+          <div id="modalMatchSubtitle" class="text-xs muted">Tur bilgisi</div>
+        </div>
+        <button onclick="closeMatchModal()" class="btn btn-sm" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Oyuncular Özeti -->
+        <div class="modal-match-summary">
+          <div>
+            <div class="text-xs font-bold" style="color:var(--p1-color);text-transform:uppercase;">Oyuncu 1</div>
+            <div id="modalP1Name" class="font-black" style="font-size:0.98rem;margin-top:2px;word-break:break-word;">—</div>
+          </div>
+          <div>
+            <div id="modalPreviewSets" class="tabular-nums font-black" style="font-size:1.2rem;color:var(--p2-color);">0 - 0</div>
+            <div class="text-xs muted font-bold">SET</div>
+          </div>
+          <div>
+            <div class="text-xs font-bold" style="color:var(--p2-color);text-transform:uppercase;">Oyuncu 2</div>
+            <div id="modalP2Name" class="font-black" style="font-size:0.98rem;margin-top:2px;word-break:break-word;">—</div>
+          </div>
+        </div>
+
+        <!-- Seçenek A: Canlı Skor Ekranında Başlat -->
+        <div class="flex-row" style="align-items:stretch;">
+          <button id="modalStartLiveBtn" onclick="startLiveFromModal()" class="btn btn-primary btn-lg" style="flex:1;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+            <span id="modalStartLiveText">Canlı Skor Ekranında Başlat</span>
+          </button>
+        </div>
+
+        <!-- Seçenek B: Hızlı Skor Gir / Düzenle -->
+        <div id="modalQuickScoreSection" class="stack-md" style="gap:10px;padding-top:12px;border-top:1px solid var(--border-subtle);">
+          <div class="flex-between">
+            <h4 style="margin:0;font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">Hızlı Skor Gir / Düzenle</h4>
+            <span id="modalBestOfHint" class="text-xs muted font-bold">Bo3 (2 Set Alan)</span>
+          </div>
+
+          <div id="modalSetRows" class="stack-md" style="gap:8px;"></div>
+
+          <div id="modalWinnerNotice" class="hidden text-xs font-bold" style="padding:9px 12px;border-radius:10px;background:var(--live-soft);border:1px solid var(--live-border);color:var(--live-color);"></div>
+
+          <!-- Hükmen Kısayolları -->
+          <div class="flex-row" style="justify-content:space-between;">
+            <span class="text-xs muted">Hükmen bitir:</span>
+            <div class="flex-row">
+              <button onclick="applyWalkoverFromModal(1)" class="btn btn-sm">O1 Hükmen</button>
+              <button onclick="applyWalkoverFromModal(2)" class="btn btn-sm">O2 Hükmen</button>
+            </div>
+          </div>
+
+          <div class="flex-between" style="padding-top:6px;">
+            <button id="modalClearMatchBtn" onclick="clearMatchScoreFromModal()" class="btn btn-danger-soft">Skoru Temizle</button>
+            <div class="flex-row">
+              <button onclick="closeMatchModal()" class="btn">Vazgeç</button>
+              <button id="modalSaveScoreBtn" onclick="saveQuickScoreFromModal()" class="btn btn-amber">Skoru Kaydet</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 2: MAÇ KURALLARI & AYARLAR                          -->
+  <!-- ========================================================= -->
+  <div id="rulesModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeRulesModal()">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <div style="font-size:1rem;font-weight:800;">Maç Kuralları &amp; Skor Ayarları</div>
+          <div class="text-xs muted">Set sayısı, set puanı, servis ve saha değişimi kurallarını özelleştirin.</div>
+        </div>
+        <button onclick="closeRulesModal()" class="btn btn-sm" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="settings-grid">
+          <div>
+            <label for="ruleBestOfSelect" class="field-label">Set Formatı (Kazanma Şartı)</label>
+            <select id="ruleBestOfSelect" class="select-input">
+              <option value="1">Tek Set (Bo1 — 1 set alan)</option>
+              <option value="3">3 Set (Bo3 — 2 set alan)</option>
+              <option value="5">5 Set (Bo5 — 3 set alan)</option>
+              <option value="7">7 Set (Bo7 — 4 set alan)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="rulePointsToWinInput" class="field-label">Set Puanı (Hedef Sayı)</label>
+            <div class="flex-row" style="flex-wrap:nowrap;">
+              <input id="rulePointsToWinInput" type="number" min="5" max="50" value="11" class="text-input tabular-nums" oninput="onPointsToWinRuleChange()" />
+              <button type="button" onclick="setPointsPreset(11)" class="btn btn-sm">11</button>
+              <button type="button" onclick="setPointsPreset(21)" class="btn btn-sm">21</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="ruleServeIntervalSelect" class="field-label">Servis Değişim Sıklığı</label>
+            <select id="ruleServeIntervalSelect" class="select-input">
+              <option value="1">Her 1 sayıda</option>
+              <option value="2">Her 2 sayıda (Resmi 11'lik)</option>
+              <option value="3">Her 3 sayıda</option>
+              <option value="5">Her 5 sayıda (Klasik 21'lik)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="field-label">Hızlı Hazır Şablon</label>
+            <div class="flex-row">
+              <button type="button" onclick="applyRulePreset('ittf')" class="btn btn-sm btn-p1-soft" style="flex:1;">ITTF (11/2)</button>
+              <button type="button" onclick="applyRulePreset('classic')" class="btn btn-sm" style="flex:1;">Klasik (21/5)</button>
+            </div>
+          </div>
+        </div>
+
+        <label class="toggle-row">
+          <div>
+            <div class="text-sm font-bold">2 Fark Kuralı (Deuce)</div>
+            <div class="text-xs muted">Hedefin 1 eksiğinde eşitlik olursa (örn. 10-10) 2 fark aranır ve her sayıda servis değişir.</div>
+          </div>
+          <input id="ruleDeuceCheck" type="checkbox" checked />
+        </label>
+
+        <label class="toggle-row">
+          <div>
+            <div class="text-sm font-bold">Otomatik Saha Değişimi (ITTF)</div>
+            <div class="text-xs muted">Her set bittiğinde ve karar setinde yarı puanda (11'likte 5, 21'likte 10) sahaları otomatik değiştirir.</div>
+          </div>
+          <input id="ruleAutoSwapCheck" type="checkbox" checked />
+        </label>
+
+        <div class="flex-between" style="padding-top:6px;">
+          <button onclick="closeRulesModal()" class="btn">İptal</button>
+          <button onclick="saveRulesFromModal()" class="btn btn-primary btn-lg">Kuralları Kaydet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODAL 3: GENEL ONAY MODALI                                -->
+  <!-- ========================================================= -->
+  <div id="confirmModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeConfirmModal()">
+    <div class="modal-panel" style="max-width:430px;">
+      <div class="modal-body">
+        <div class="flex-row" style="align-items:flex-start;flex-wrap:nowrap;">
+          <div style="width:40px;height:40px;border-radius:11px;background:var(--warn-soft);border:1px solid var(--warn-border);color:var(--warn-color);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 id="confirmModalTitle" style="margin:0;font-size:1rem;font-weight:800;">Onay</h3>
+            <p id="confirmModalMessage" class="text-sm muted" style="margin:6px 0 0;"></p>
+          </div>
+        </div>
+        <div class="flex-row" style="justify-content:flex-end;">
+          <button onclick="closeConfirmModal()" class="btn">İptal</button>
+          <button id="confirmModalOkBtn" class="btn btn-danger">Onayla</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- TOAST BİLDİRİM ALANI                                      -->
+  <!-- ========================================================= -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- ========================================================= -->
+  <!-- UYGULAMA MANTIĞI (JAVASCRIPT)                             -->
+  <!-- ========================================================= -->
+  <script>
+    /*************************************************************************
+     * 1. UYGULAMA DURUMU (STATE), TEMA, SES VE KALICILIK (LOCALSTORAGE)
+     *************************************************************************/
+    const STORAGE_KEY = 'pingpong_pro_tournament_v2';
+    const LEGACY_STORAGE_KEY = 'pingpong_pro_tournament_v1';
+    const THEME_KEY = 'pingpong_pro_theme';
+    const SOUND_KEY = 'pingpong_pro_sound';
+
+    function createEmptyLiveState() {
+      return {
+        currentSetP1: 0,
+        currentSetP2: 0,
+        sets: [], // [{ p1: 11, p2: 8 }, ...]
+        initialServer: 1, // 1 veya 2 (1. sette ilk servis)
+        swappedSides: false, // false: Sol=P1 Sağ=P2, true: Sol=P2 Sağ=P1
+        decidingSetSwapped: false,
+        p1TimeoutUsed: false,
+        p2TimeoutUsed: false,
+        elapsedSeconds: 0,
+        timerRunning: true,
+        swapBannerText: '',
+        history: []
+      };
+    }
+
+    function createDefaultTables() {
+      return [
+        { id: 1, name: 'Masa 1', matchId: null, live: createEmptyLiveState() },
+        { id: 2, name: 'Masa 2', matchId: null, live: createEmptyLiveState() }
+      ];
+    }
+
+    let state = {
+      title: 'Masa Tenisi Turnuvası',
+      bestOf: 3, // 1, 3, 5, 7
+      rules: {
+        pointsToWin: 11,
+        serveInterval: 2,
+        winByTwo: true,
+        autoSwapSides: true
+      },
+      totalRounds: 4,
+      matches: [],
+      tables: createDefaultTables(),
+      selectedTableId: 1
+    };
+
+    let currentTab = 'bracket';
+    let searchQuery = '';
+    let modalMatchId = null;
+    let confirmCallback = null;
+    let isProjectorMode = false;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // Mola (Timeout) geri sayım durumu (geçici UI durumu)
+    let timeoutState = { active: false, playerName: '', secondsLeft: 60, intervalId: null };
+
+    // Canlı kronometre 1 saniyelik döngüsü
+    let liveTickerId = null;
+
+    function normalizeTr(str) {
+      return String(str || '').toLocaleLowerCase('tr-TR');
+    }
+
+    function getSelectedTable() {
+      let t = state.tables.find(x => x.id === state.selectedTableId);
+      if (!t && state.tables.length > 0) {
+        t = state.tables[0];
+        state.selectedTableId = t.id;
+      }
+      return t || null;
+    }
+
+    function getTableByMatchId(matchId) {
+      return state.tables.find(t => t.matchId === matchId) || null;
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (err) {
+        console.error('LocalStorage kayıt hatası:', err);
+      }
+    }
+
+    function ensureStateIntegrity() {
+      if (!state.rules) {
+        state.rules = { pointsToWin: 11, serveInterval: 2, winByTwo: true, autoSwapSides: true };
+      }
+      state.rules.pointsToWin = Math.max(5, Math.min(50, Number(state.rules.pointsToWin) || 11));
+      state.rules.serveInterval = Math.max(1, Math.min(10, Number(state.rules.serveInterval) || 2));
+      state.rules.winByTwo = state.rules.winByTwo !== false;
+      state.rules.autoSwapSides = state.rules.autoSwapSides !== false;
+
+      if (![1, 3, 5, 7].includes(Number(state.bestOf))) state.bestOf = 3;
+
+      if (!Array.isArray(state.tables) || state.tables.length === 0) {
+        state.tables = createDefaultTables();
+      }
+      state.tables.forEach((t, idx) => {
+        if (!t.id) t.id = idx + 1;
+        if (!t.name) t.name = `Masa ${t.id}`;
+        t.live = { ...createEmptyLiveState(), ...(t.live || {}) };
+        if (t.matchId && !getMatchById(t.matchId)) {
+          t.matchId = null;
+          t.live = createEmptyLiveState();
+        }
+      });
+      if (!state.tables.some(t => t.id === state.selectedTableId)) {
+        state.selectedTableId = state.tables[0].id;
+      }
+    }
+
+    function loadState() {
+      try {
+        const rawV2 = localStorage.getItem(STORAGE_KEY);
+        if (rawV2) {
+          const parsed = JSON.parse(rawV2);
+          if (parsed && Array.isArray(parsed.matches) && parsed.matches.length > 0) {
+            state = { ...state, ...parsed };
+            ensureStateIntegrity();
+            resolveAllByesAndStatuses();
+            return;
+          }
+        }
+        // Eski v1 kaydı varsa migrasyon yap
+        const rawV1 = localStorage.getItem(LEGACY_STORAGE_KEY);
+        if (rawV1) {
+          const parsed = JSON.parse(rawV1);
+          if (parsed && Array.isArray(parsed.matches) && parsed.matches.length > 0) {
+            const tables = createDefaultTables();
+            if (parsed.activeMatchId) {
+              tables[0].matchId = parsed.activeMatchId;
+              tables[0].live = { ...createEmptyLiveState(), ...(parsed.live || {}) };
+            }
+            state = {
+              title: parsed.title || 'Masa Tenisi Turnuvası',
+              bestOf: parsed.bestOf || 3,
+              rules: { pointsToWin: 11, serveInterval: 2, winByTwo: true, autoSwapSides: true },
+              totalRounds: parsed.totalRounds || Math.max(...parsed.matches.map(m => m.round)),
+              matches: parsed.matches,
+              tables,
+              selectedTableId: 1
+            };
+            ensureStateIntegrity();
+            resolveAllByesAndStatuses();
+            saveState();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Kayıtlı veri okunamadı, örnek turnuva yükleniyor:', err);
+      }
+      loadSampleTournament(16, true);
+    }
+
+    /*************************************************************************
+     * 1B. TEMA (AÇIK / KOYU) VE SES EFEKTLERİ (WEB AUDIO API)
+     *************************************************************************/
+    function applyTheme(theme) {
+      const normalized = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', normalized);
+      localStorage.setItem(THEME_KEY, normalized);
+
+      const iconWrap = document.getElementById('themeIconWrap');
+      const label = document.getElementById('themeBtnLabel');
+      if (normalized === 'dark') {
+        iconWrap.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>`;
+        label.textContent = 'Açık Tema';
+      } else {
+        iconWrap.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`;
+        label.textContent = 'Koyu Tema';
+      }
+      if (currentTab === 'bracket') {
+        requestAnimationFrame(() => drawBracketConnectors());
+      }
+    }
+
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute('data-theme');
+      applyTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'light' || saved === 'dark') {
+        applyTheme(saved);
+      } else {
+        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(prefersLight ? 'light' : 'dark');
+      }
+    }
+
+    function applySoundUI() {
+      const wrap = document.getElementById('soundIconWrap');
+      const lbl = document.getElementById('soundBtnLabel');
+      if (soundEnabled) {
+        wrap.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path stroke-linecap="round" d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>`;
+        lbl.textContent = 'Ses Açık';
+      } else {
+        wrap.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+        lbl.textContent = 'Sessiz';
+      }
+    }
+
+    function initSound() {
+      const saved = localStorage.getItem(SOUND_KEY);
+      soundEnabled = saved !== 'off';
+      applySoundUI();
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem(SOUND_KEY, soundEnabled ? 'on' : 'off');
+      applySoundUI();
+      if (soundEnabled) playTone('point');
+    }
+
+    function playTone(kind) {
+      if (!soundEnabled) return;
+      try {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtor) return;
+        if (!audioCtx) audioCtx = new AudioCtor();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+        const beep = (freq, startOffset, dur, vol = 0.08, type = 'sine') => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now + startOffset);
+          gain.gain.setValueAtTime(vol, now + startOffset);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + startOffset + dur);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + startOffset);
+          osc.stop(now + startOffset + dur);
+        };
+
+        if (kind === 'point') {
+          beep(640, 0, 0.07, 0.07);
+        } else if (kind === 'undo') {
+          beep(360, 0, 0.07, 0.06);
+        } else if (kind === 'swap') {
+          beep(520, 0, 0.08, 0.08);
+          beep(700, 0.09, 0.1, 0.08);
+        } else if (kind === 'set') {
+          beep(587, 0, 0.1, 0.09);
+          beep(880, 0.11, 0.18, 0.1);
+        } else if (kind === 'match') {
+          beep(523, 0, 0.11, 0.1);
+          beep(659, 0.12, 0.11, 0.1);
+          beep(784, 0.24, 0.12, 0.1);
+          beep(1046, 0.37, 0.28, 0.12);
+        } else if (kind === 'timeout') {
+          beep(880, 0, 0.18, 0.12, 'triangle');
+          beep(880, 0.24, 0.18, 0.12, 'triangle');
+          beep(880, 0.48, 0.3, 0.12, 'triangle');
+        }
+      } catch (_) {}
+    }
+
+    /*************************************************************************
+     * 2. YARDIMCI FONKSİYONLAR VE BİLDİRİMLER
+     *************************************************************************/
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast-item toast-enter ${type}`;
+      el.textContent = message;
+      container.appendChild(el);
+
+      requestAnimationFrame(() => el.classList.remove('toast-enter'));
+
+      setTimeout(() => {
+        el.classList.add('toast-enter');
+        setTimeout(() => el.remove(), 260);
+      }, 3300);
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function openConfirmModal(title, message, onConfirm) {
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalMessage').textContent = message;
+      confirmCallback = onConfirm;
+      document.getElementById('confirmModal').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
+      confirmCallback = null;
+    }
+
+    document.getElementById('confirmModalOkBtn').addEventListener('click', () => {
+      const cb = confirmCallback;
+      closeConfirmModal();
+      if (typeof cb === 'function') cb();
+    });
+
+    function getRoundLabel(round, totalRounds) {
+      const remaining = totalRounds - round;
+      if (remaining === 0) return 'Final';
+      if (remaining === 1) return 'Yarı Final';
+      if (remaining === 2) return 'Çeyrek Final';
+      if (remaining === 3) return 'Son 16';
+      if (remaining === 4) return 'Son 32';
+      if (remaining === 5) return 'Son 64';
+      return `${round}. Tur`;
+    }
+
+    function setsNeededToWin() {
+      return Math.ceil(state.bestOf / 2); // Bo1->1, Bo3->2, Bo5->3, Bo7->4
+    }
+
+    function getMatchById(id) {
+      return state.matches.find(m => m.id === id) || null;
+    }
+
+    function formatClock(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    /*************************************************************************
+     * 3. TURNUVA AĞACI OLUŞTURMA (OTOMATİK BAY & SERİBAŞI DAĞITIMI)
+     *************************************************************************/
+    function generateSeedOrder(size) {
+      let order = [1, 2];
+      while (order.length < size) {
+        const nextSize = order.length * 2;
+        const nextOrder = [];
+        for (const seed of order) {
+          nextOrder.push(seed);
+          nextOrder.push(nextSize + 1 - seed);
+        }
+        order = nextOrder;
+      }
+      return order;
+    }
+
+    function buildSingleEliminationBracket(players, title = 'Masa Tenisi Turnuvası', shuffle = false) {
+      const cleanPlayers = players.map(p => p.trim()).filter(Boolean);
+      if (cleanPlayers.length < 2) return null;
+
+      const list = [...cleanPlayers];
+      if (shuffle) {
+        for (let i = list.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+      }
+
+      let bracketSize = 4;
+      while (bracketSize < list.length) bracketSize *= 2;
+      const totalRounds = Math.log2(bracketSize);
+
+      const seedOrder = generateSeedOrder(bracketSize);
+      const slottedPlayers = seedOrder.map(seedNum => (seedNum <= list.length ? list[seedNum - 1] : 'BAY'));
+
+      const matches = [];
+      const roundMatchIds = {};
+      let matchCounter = 1;
+
+      for (let r = 1; r <= totalRounds; r++) {
+        const count = bracketSize / Math.pow(2, r);
+        roundMatchIds[r] = [];
+        for (let idx = 0; idx < count; idx++) {
+          const id = `R${r}_M${idx + 1}`;
+          roundMatchIds[r].push(id);
+          matches.push({
+            id,
+            matchNumber: matchCounter++,
+            round: r,
+            roundIndex: idx,
+            player1: r === 1 ? slottedPlayers[idx * 2] : null,
+            player2: r === 1 ? slottedPlayers[idx * 2 + 1] : null,
+            nextMatchId: null,
+            nextMatchSlot: null,
+            status: 'pending',
+            sets: [],
+            p1Sets: 0,
+            p2Sets: 0,
+            winner: null
+          });
+        }
+      }
+
+      for (let r = 1; r < totalRounds; r++) {
+        const currentIds = roundMatchIds[r];
+        const nextIds = roundMatchIds[r + 1];
+        currentIds.forEach((id, idx) => {
+          const m = matches.find(x => x.id === id);
+          m.nextMatchId = nextIds[Math.floor(idx / 2)];
+          m.nextMatchSlot = (idx % 2 === 0) ? 1 : 2;
+        });
+      }
+
+      state.title = title;
+      state.totalRounds = totalRounds;
+      state.matches = matches;
+      clearAllTables();
+      resolveAllByesAndStatuses();
+      return state;
+    }
+
+    function clearAllTables() {
+      stopTimeout();
+      state.tables.forEach(t => {
+        t.matchId = null;
+        t.live = createEmptyLiveState();
+      });
+    }
+
+    function resolveAllByesAndStatuses() {
+      const sorted = [...state.matches].sort((a, b) => a.round - b.round || a.roundIndex - b.roundIndex);
+      for (const m of sorted) {
+        const assignedTable = getTableByMatchId(m.id);
+
+        if (m.player1 === 'BAY' && m.player2 && m.player2 !== 'BAY') {
+          m.winner = 2;
+          m.status = 'completed';
+          m.sets = [];
+          m.p1Sets = 0;
+          m.p2Sets = 0;
+          placeWinnerInNextMatch(m, m.player2);
+        } else if (m.player2 === 'BAY' && m.player1 && m.player1 !== 'BAY') {
+          m.winner = 1;
+          m.status = 'completed';
+          m.sets = [];
+          m.p1Sets = 0;
+          m.p2Sets = 0;
+          placeWinnerInNextMatch(m, m.player1);
+        } else if (m.winner === 1 || m.winner === 2) {
+          m.status = 'completed';
+          const winnerName = m.winner === 1 ? m.player1 : m.player2;
+          if (winnerName) placeWinnerInNextMatch(m, winnerName);
+        } else if (assignedTable) {
+          m.status = 'live';
+        } else if (m.player1 && m.player2 && m.player1 !== 'BAY' && m.player2 !== 'BAY') {
+          m.status = 'ready';
+        } else {
+          m.status = 'pending';
+        }
+      }
+    }
+
+    function placeWinnerInNextMatch(match, winnerName) {
+      if (!match.nextMatchId || !match.nextMatchSlot) return;
+      const nextMatch = getMatchById(match.nextMatchId);
+      if (!nextMatch) return;
+
+      const slotKey = match.nextMatchSlot === 1 ? 'player1' : 'player2';
+      const prevPlayer = nextMatch[slotKey];
+
+      if (prevPlayer !== winnerName) {
+        nextMatch[slotKey] = winnerName;
+        if (nextMatch.status === 'completed' || nextMatch.status === 'live') {
+          clearMatchResultCascade(nextMatch.id);
+        }
+      }
+    }
+
+    function clearMatchResultCascade(matchId) {
+      const m = getMatchById(matchId);
+      if (!m) return;
+
+      const tbl = getTableByMatchId(m.id);
+      if (tbl) {
+        tbl.matchId = null;
+        tbl.live = createEmptyLiveState();
+      }
+
+      m.sets = [];
+      m.p1Sets = 0;
+      m.p2Sets = 0;
+      m.winner = null;
+      m.status = (m.player1 && m.player2 && m.player1 !== 'BAY' && m.player2 !== 'BAY') ? 'ready' : 'pending';
+
+      if (m.nextMatchId && m.nextMatchSlot) {
+        const nextMatch = getMatchById(m.nextMatchId);
+        if (nextMatch) {
+          const slotKey = m.nextMatchSlot === 1 ? 'player1' : 'player2';
+          nextMatch[slotKey] = null;
+          clearMatchResultCascade(nextMatch.id);
+        }
+      }
+    }
+
+    function applyMatchResult(matchId, setsArray, explicitWinner = null) {
+      const m = getMatchById(matchId);
+      if (!m) return false;
+
+      let p1Sets = 0;
+      let p2Sets = 0;
+      setsArray.forEach(s => {
+        if (s.p1 > s.p2) p1Sets++;
+        else if (s.p2 > s.p1) p2Sets++;
+      });
+
+      const needed = setsNeededToWin();
+      let winner = explicitWinner;
+      if (!winner) {
+        if (p1Sets >= needed && p1Sets > p2Sets) winner = 1;
+        else if (p2Sets >= needed && p2Sets > p1Sets) winner = 2;
+        else if (p1Sets !== p2Sets && setsArray.length > 0) {
+          winner = p1Sets > p2Sets ? 1 : 2;
+        }
+      }
+
+      m.sets = setsArray;
+      m.p1Sets = p1Sets;
+      m.p2Sets = p2Sets;
+      m.winner = winner;
+
+      if (winner) {
+        m.status = 'completed';
+        const tbl = getTableByMatchId(m.id);
+        if (tbl) {
+          tbl.matchId = null;
+          tbl.live = createEmptyLiveState();
+        }
+        const winnerName = winner === 1 ? m.player1 : m.player2;
+        placeWinnerInNextMatch(m, winnerName);
+        resolveAllByesAndStatuses();
+      } else {
+        m.status = (m.player1 && m.player2) ? 'ready' : 'pending';
+      }
+
+      saveState();
+      renderAll();
+      return true;
+    }
+
+    /*************************************************************************
+     * 4. ÖRNEK TURNUVALAR (8, 16, 32 KİŞİLİK)
+     *************************************************************************/
+    const SAMPLE_PLAYERS_32 = [
+      'Ahmet Yılmaz', 'Kerem Öztürk', 'Zeynep Arslan', 'Burak Çelik',
+      'Can Demir', 'Elif Şahin', 'Emre Aydın', 'Selin Koç',
+      'Mert Kaya', 'Deniz Yıldız', 'Oğuzhan Aksoy', 'İrem Polat',
+      'Yusuf Karaca', 'Ece Güneş', 'Hakan Erdoğan', 'Buse Korkmaz',
+      'Tarık Özdemir', 'Ceren Acar', 'Onur Kılıç', 'Melis Doğan',
+      'Furkan Şimşek', 'Derya Kurt', 'Kaan Yüksel', 'Nisa Tekin',
+      'Serkan Bulut', 'Aslı Yalçın', 'Alperen Uzun', 'Sude Çetin',
+      'Umut Kaplan', 'Gizem Taş', 'Volkan Özkan', 'Nazlı Tunç'
+    ];
+
+    function loadSampleTournament(count = 16, silent = false) {
+      const players = SAMPLE_PLAYERS_32.slice(0, count);
+      const title = `Masa Tenisi Açık Turnuvası (${count} Kişilik)`;
+
+      state.bestOf = 3;
+      buildSingleEliminationBracket(players, title, false);
+
+      const sampleScores = [
+        [{ p1: 11, p2: 8 }, { p1: 9, p2: 11 }, { p1: 11, p2: 6 }],
+        [{ p1: 11, p2: 7 }, { p1: 11, p2: 9 }],
+        [{ p1: 8, p2: 11 }, { p1: 11, p2: 9 }, { p1: 10, p2: 12 }],
+        [{ p1: 11, p2: 5 }, { p1: 11, p2: 8 }],
+        [{ p1: 12, p2: 10 }, { p1: 7, p2: 11 }, { p1: 11, p2: 7 }],
+        [{ p1: 6, p2: 11 }, { p1: 9, p2: 11 }]
+      ];
+
+      const round1 = state.matches.filter(m => m.round === 1);
+      const prefillCount = count === 8 ? 2 : (count === 16 ? 5 : 8);
+      for (let i = 0; i < Math.min(prefillCount, round1.length); i++) {
+        applyMatchResultSilent(round1[i].id, sampleScores[i % sampleScores.length]);
+      }
+
+      resolveAllByesAndStatuses();
+      saveState();
+      renderAll();
+
+      if (!silent) {
+        switchTab('bracket');
+        showToast(`${count} kişilik örnek turnuva yüklendi.`, 'success');
+      }
+    }
+
+    function applyMatchResultSilent(matchId, setsArray) {
+      const m = getMatchById(matchId);
+      if (!m) return;
+      let p1Sets = 0, p2Sets = 0;
+      setsArray.forEach(s => { if (s.p1 > s.p2) p1Sets++; else if (s.p2 > s.p1) p2Sets++; });
+      m.sets = setsArray;
+      m.p1Sets = p1Sets;
+      m.p2Sets = p2Sets;
+      m.winner = p1Sets > p2Sets ? 1 : 2;
+      m.status = 'completed';
+      placeWinnerInNextMatch(m, m.winner === 1 ? m.player1 : m.player2);
+    }
+
+    /*************************************************************************
+     * 5. CHALLONGE JSON & CSV İÇE AKTARMA PARSER'I
+     *************************************************************************/
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('importRawText').value = e.target.result;
+        processRawImport();
+      };
+      reader.readAsText(file, 'UTF-8');
+      event.target.value = '';
+    }
+
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover'].forEach(ev => {
+      dropZone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-active');
+      });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      dropZone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-active');
+      });
+    });
+    dropZone.addEventListener('drop', (e) => {
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        document.getElementById('importRawText').value = ev.target.result;
+        processRawImport();
+      };
+      reader.readAsText(file, 'UTF-8');
+    });
+
+    function fillSampleChallongeCSV() {
+      const sample = `Round,Match,Player 1,Player 2,Scores,Winner
+1,1,Ahmet Yılmaz,Mehmet Kaya,"11-8, 9-11, 11-6",Ahmet Yılmaz
+1,2,Can Demir,Emre Aydın,"11-5, 11-7",Can Demir
+1,3,Zeynep Arslan,Elif Şahin,,
+1,4,Burak Çelik,Selin Koç,"7-11, 11-9, 8-11",Selin Koç
+2,5,Ahmet Yılmaz,Can Demir,,
+2,6,,Selin Koç,,
+3,7,,,,`;
+      document.getElementById('importRawText').value = sample;
+      showToast('Örnek CSV şablonu dolduruldu. "Veriyi İçe Aktar" butonuna basabilirsiniz.', 'info');
+    }
+
+    function processRawImport() {
+      const raw = document.getElementById('importRawText').value.trim();
+      if (!raw) {
+        showToast('Lütfen önce JSON veya CSV içeriği yapıştırın ya da dosya yükleyin.', 'warning');
+        return;
+      }
+
+      if (raw.startsWith('{') || raw.startsWith('[')) {
+        try {
+          const json = JSON.parse(raw);
+          if (importFromJSON(json)) {
+            saveState();
+            renderAll();
+            switchTab('bracket');
+            showToast('JSON turnuva verisi başarıyla içe aktarıldı!', 'success');
+            return;
+          }
+        } catch (err) {
+          showToast('JSON formatı ayrıştırılamadı: ' + err.message, 'error');
+          return;
+        }
+      }
+
+      try {
+        if (importFromCSV(raw)) {
+          saveState();
+          renderAll();
+          switchTab('bracket');
+          showToast('CSV turnuva verisi başarıyla içe aktarıldı!', 'success');
+        } else {
+          showToast('CSV verisinden geçerli maç bulunamadı. Sütun başlıklarını kontrol edin.', 'error');
+        }
+      } catch (err) {
+        showToast('CSV içe aktarma hatası: ' + err.message, 'error');
+      }
+    }
+
+    function parseScoresString(scoreStr) {
+      if (!scoreStr || typeof scoreStr !== 'string') return [];
+      const parts = scoreStr.split(/[,;/]+/).map(s => s.trim()).filter(Boolean);
+      const sets = [];
+      for (const part of parts) {
+        const m = part.match(/^(-?\d+)\s*[-:]\s*(-?\d+)$/);
+        if (m) {
+          sets.push({ p1: Math.max(0, parseInt(m[1], 10)), p2: Math.max(0, parseInt(m[2], 10)) });
+        }
+      }
+      return sets;
+    }
+
+    function importFromJSON(data) {
+      // Kendi uygulamamızın JSON yedeği (v1 ve v2 uyumlu)
+      if (data && Array.isArray(data.matches) && data.matches[0] && 'roundIndex' in data.matches[0] && 'p1Sets' in data.matches[0]) {
+        state = {
+          title: data.title || 'İçe Aktarılan Turnuva',
+          bestOf: [1, 3, 5, 7].includes(Number(data.bestOf)) ? Number(data.bestOf) : 3,
+          rules: {
+            pointsToWin: 11,
+            serveInterval: 2,
+            winByTwo: true,
+            autoSwapSides: true,
+            ...(data.rules || {})
+          },
+          totalRounds: data.totalRounds || Math.max(...data.matches.map(m => m.round)),
+          matches: data.matches,
+          tables: Array.isArray(data.tables) && data.tables.length > 0 ? data.tables : createDefaultTables(),
+          selectedTableId: data.selectedTableId || 1
+        };
+        ensureStateIntegrity();
+        resolveAllByesAndStatuses();
+        return true;
+      }
+
+      // Challonge API v1 formatı
+      const root = data.tournament ? data.tournament : data;
+      const rawParticipants = root.participants || [];
+      const rawMatches = root.matches || (Array.isArray(data) ? data : []);
+
+      if (!Array.isArray(rawMatches) || rawMatches.length === 0) {
+        throw new Error('JSON içinde "matches" dizisi bulunamadı.');
+      }
+
+      const pMap = {};
+      rawParticipants.forEach(item => {
+        const p = item.participant || item;
+        if (p && p.id !== undefined) {
+          pMap[String(p.id)] = p.display_name || p.name || p.username || `Oyuncu ${p.id}`;
+        }
+      });
+
+      const flatMatches = rawMatches
+        .map(item => item.match || item)
+        .filter(m => m && (m.round === undefined || Number(m.round) > 0));
+
+      if (flatMatches.length === 0) {
+        throw new Error('Geçerli ana ağaç maçı bulunamadı.');
+      }
+
+      const roundsSet = [...new Set(flatMatches.map(m => Number(m.round) || 1))].sort((a, b) => a - b);
+      const roundRemap = {};
+      roundsSet.forEach((r, idx) => { roundRemap[r] = idx + 1; });
+
+      const grouped = {};
+      flatMatches.forEach(m => {
+        const r = roundRemap[Number(m.round) || 1];
+        if (!grouped[r]) grouped[r] = [];
+        grouped[r].push(m);
+      });
+
+      const matches = [];
+      const challongeIdToInternalId = {};
+      let counter = 1;
+
+      Object.keys(grouped).map(Number).sort((a, b) => a - b).forEach(r => {
+        const arr = grouped[r].sort((a, b) => (a.suggested_play_order || a.id || 0) - (b.suggested_play_order || b.id || 0));
+        arr.forEach((cm, idx) => {
+          const internalId = `R${r}_M${idx + 1}`;
+          if (cm.id !== undefined) challongeIdToInternalId[String(cm.id)] = internalId;
+
+          const p1Name = cm.player1_name || (cm.player1_id ? (pMap[String(cm.player1_id)] || `Oyuncu ${cm.player1_id}`) : null);
+          const p2Name = cm.player2_name || (cm.player2_id ? (pMap[String(cm.player2_id)] || `Oyuncu ${cm.player2_id}`) : null);
+          const sets = parseScoresString(cm.scores_csv || cm.scores || '');
+          let p1Sets = 0, p2Sets = 0;
+          sets.forEach(s => { if (s.p1 > s.p2) p1Sets++; else if (s.p2 > s.p1) p2Sets++; });
+
+          let winner = null;
+          if (cm.winner_id !== null && cm.winner_id !== undefined) {
+            if (String(cm.winner_id) === String(cm.player1_id)) winner = 1;
+            else if (String(cm.winner_id) === String(cm.player2_id)) winner = 2;
+          } else if (cm.state === 'complete' && p1Sets !== p2Sets) {
+            winner = p1Sets > p2Sets ? 1 : 2;
+          }
+
+          matches.push({
+            id: internalId,
+            _p1Prereq: cm.player1_prereq_match_id ? String(cm.player1_prereq_match_id) : null,
+            _p2Prereq: cm.player2_prereq_match_id ? String(cm.player2_prereq_match_id) : null,
+            matchNumber: cm.suggested_play_order || counter,
+            round: r,
+            roundIndex: idx,
+            player1: p1Name,
+            player2: p2Name,
+            nextMatchId: null,
+            nextMatchSlot: null,
+            status: 'pending',
+            sets,
+            p1Sets,
+            p2Sets,
+            winner
+          });
+          counter++;
+        });
+      });
+
+      let linkedByPrereq = false;
+      matches.forEach(m => {
+        if (m._p1Prereq && challongeIdToInternalId[m._p1Prereq]) {
+          const prev = matches.find(x => x.id === challongeIdToInternalId[m._p1Prereq]);
+          if (prev) { prev.nextMatchId = m.id; prev.nextMatchSlot = 1; linkedByPrereq = true; }
+        }
+        if (m._p2Prereq && challongeIdToInternalId[m._p2Prereq]) {
+          const prev = matches.find(x => x.id === challongeIdToInternalId[m._p2Prereq]);
+          if (prev) { prev.nextMatchId = m.id; prev.nextMatchSlot = 2; linkedByPrereq = true; }
+        }
+      });
+
+      const totalRounds = Math.max(...matches.map(m => m.round));
+      if (!linkedByPrereq) linkMatchesByRoundStructure(matches, totalRounds);
+      matches.forEach(m => { delete m._p1Prereq; delete m._p2Prereq; });
+
+      state.title = root.name || 'Challonge Turnuvası';
+      state.totalRounds = totalRounds;
+      state.matches = matches;
+      clearAllTables();
+      resolveAllByesAndStatuses();
+      return true;
+    }
+
+    function parseCSVLines(text) {
+      const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim().length > 0);
+      if (lines.length < 2) return [];
+      const headerLine = lines[0];
+      const delimiter = (headerLine.split(';').length > headerLine.split(',').length) ? ';' : ',';
+
+      const rows = [];
+      for (const line of lines) {
+        const cols = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+            else inQuotes = !inQuotes;
+          } else if (ch === delimiter && !inQuotes) {
+            cols.push(cur.trim());
+            cur = '';
+          } else {
+            cur += ch;
+          }
+        }
+        cols.push(cur.trim());
+        rows.push(cols);
+      }
+      return rows;
+    }
+
+    function importFromCSV(csvText) {
+      const rows = parseCSVLines(csvText);
+      if (rows.length < 2) return false;
+
+      const headers = rows[0].map(h => normalizeTr(h).replace(/[^a-z0-9ğüşöçı]/g, ''));
+      const findCol = (keywords) => headers.findIndex(h => keywords.some(k => h.includes(k)));
+
+      const roundCol = findCol(['round', 'tur']);
+      const matchCol = findCol(['match', 'mac', 'maç', 'identifier', 'no']);
+      const p1Col = findCol(['player1', 'oyuncu1', 'p1', 'evsahibi', 'participant1']);
+      const p2Col = findCol(['player2', 'oyuncu2', 'p2', 'deplasman', 'participant2']);
+      const scoreCol = findCol(['score', 'skor', 'set']);
+      const winnerCol = findCol(['winner', 'kazanan', 'galip']);
+
+      if (p1Col === -1 || p2Col === -1) {
+        throw new Error('CSV başlıklarında "Player 1 / Oyuncu 1" ve "Player 2 / Oyuncu 2" sütunları bulunamadı.');
+      }
+
+      const parsedRows = [];
+      for (let i = 1; i < rows.length; i++) {
+        const r = rows[i];
+        const roundVal = roundCol !== -1 ? parseInt(r[roundCol], 10) : 1;
+        if (roundVal < 0) continue;
+        parsedRows.push({
+          round: isNaN(roundVal) ? 1 : Math.max(1, roundVal),
+          matchNum: matchCol !== -1 && !isNaN(parseInt(r[matchCol], 10)) ? parseInt(r[matchCol], 10) : i,
+          p1: (r[p1Col] || '').trim() || null,
+          p2: (r[p2Col] || '').trim() || null,
+          scores: scoreCol !== -1 ? (r[scoreCol] || '').trim() : '',
+          winnerName: winnerCol !== -1 ? (r[winnerCol] || '').trim() : ''
+        });
+      }
+
+      if (parsedRows.length === 0) return false;
+
+      const round1Count = parsedRows.filter(x => x.round === 1).length;
+      const maxCsvRound = Math.max(...parsedRows.map(x => x.round));
+      let bracketSize = 4;
+      while (bracketSize < round1Count * 2) bracketSize *= 2;
+      const totalRounds = Math.max(maxCsvRound, Math.log2(bracketSize));
+
+      const matches = [];
+      let counter = 1;
+
+      for (let r = 1; r <= totalRounds; r++) {
+        const expectedCount = Math.max(1, Math.pow(2, totalRounds - r));
+        const csvMatchesInRound = parsedRows.filter(x => x.round === r);
+        const count = Math.max(expectedCount, csvMatchesInRound.length);
+
+        for (let idx = 0; idx < count; idx++) {
+          const row = csvMatchesInRound[idx];
+          const sets = row ? parseScoresString(row.scores) : [];
+          let p1Sets = 0, p2Sets = 0;
+          sets.forEach(s => { if (s.p1 > s.p2) p1Sets++; else if (s.p2 > s.p1) p2Sets++; });
+
+          let winner = null;
+          if (row && row.winnerName) {
+            if (row.p1 && normalizeTr(row.winnerName) === normalizeTr(row.p1)) winner = 1;
+            else if (row.p2 && normalizeTr(row.winnerName) === normalizeTr(row.p2)) winner = 2;
+          } else if (sets.length > 0 && p1Sets !== p2Sets) {
+            winner = p1Sets > p2Sets ? 1 : 2;
+          }
+
+          matches.push({
+            id: `R${r}_M${idx + 1}`,
+            matchNumber: row ? row.matchNum : counter,
+            round: r,
+            roundIndex: idx,
+            player1: row ? row.p1 : null,
+            player2: row ? row.p2 : null,
+            nextMatchId: null,
+            nextMatchSlot: null,
+            status: 'pending',
+            sets,
+            p1Sets,
+            p2Sets,
+            winner
+          });
+          counter++;
+        }
+      }
+
+      linkMatchesByRoundStructure(matches, totalRounds);
+
+      state.title = 'Challonge CSV Turnuvası';
+      state.totalRounds = totalRounds;
+      state.matches = matches;
+      clearAllTables();
+      resolveAllByesAndStatuses();
+      return true;
+    }
+
+    function linkMatchesByRoundStructure(matches, totalRounds) {
+      for (let r = 1; r < totalRounds; r++) {
+        const cur = matches.filter(m => m.round === r).sort((a, b) => a.roundIndex - b.roundIndex);
+        const nxt = matches.filter(m => m.round === r + 1).sort((a, b) => a.roundIndex - b.roundIndex);
+        cur.forEach((m, idx) => {
+          const target = nxt[Math.floor(idx / 2)];
+          if (target) {
+            m.nextMatchId = target.id;
+            m.nextMatchSlot = (idx % 2 === 0) ? 1 : 2;
+          }
+        });
+      }
+    }
+
+    function updateQuickPlayerCount() {
+      const lines = document.getElementById('quickPlayersInput').value
+        .split('\n').map(s => s.trim()).filter(Boolean);
+      document.getElementById('quickPlayerCount').textContent = `${lines.length} Oyuncu`;
+    }
+
+    function createFromPlayerList() {
+      const raw = document.getElementById('quickPlayersInput').value;
+      const players = raw.split('\n').map(s => s.trim()).filter(Boolean);
+      const title = document.getElementById('quickTitleInput').value.trim() || 'Masa Tenisi Turnuvası';
+      const shuffle = document.getElementById('quickShuffleCheck').checked;
+
+      if (players.length < 4) {
+        showToast('En az 4 katılımcı ismi girmelisiniz.', 'warning');
+        return;
+      }
+      if (players.length > 64) {
+        showToast('En fazla 64 katılımcı ekleyebilirsiniz.', 'warning');
+        return;
+      }
+
+      buildSingleEliminationBracket(players, title, shuffle);
+      saveState();
+      renderAll();
+      switchTab('bracket');
+      showToast(`${players.length} katılımcı ile turnuva ağacı oluşturuldu!`, 'success');
+    }
+
+    /*************************************************************************
+     * 6. ÜST KONTROL ÇUBUĞU & MAÇ KURALLARI MODALI
+     *************************************************************************/
+    document.getElementById('tournamentTitleInput').addEventListener('input', (e) => {
+      state.title = e.target.value;
+      saveState();
+    });
+
+    function setBestOf(bo) {
+      if (state.bestOf === bo) return;
+      state.bestOf = bo;
+      saveState();
+      renderAll();
+      const label = bo === 1 ? 'Tek Set (1 set alan)' : `Bo${bo} (${Math.ceil(bo / 2)} set alan)`;
+      showToast(`Format ${label} olarak güncellendi.`, 'info');
+    }
+
+    function openRulesModal() {
+      document.getElementById('ruleBestOfSelect').value = String(state.bestOf);
+      document.getElementById('rulePointsToWinInput').value = String(state.rules.pointsToWin);
+      document.getElementById('ruleServeIntervalSelect').value = String(state.rules.serveInterval);
+      document.getElementById('ruleDeuceCheck').checked = Boolean(state.rules.winByTwo);
+      document.getElementById('ruleAutoSwapCheck').checked = Boolean(state.rules.autoSwapSides);
+      document.getElementById('rulesModal').classList.remove('hidden');
+    }
+
+    function closeRulesModal() {
+      document.getElementById('rulesModal').classList.add('hidden');
+    }
+
+    function setPointsPreset(pts) {
+      document.getElementById('rulePointsToWinInput').value = String(pts);
+      document.getElementById('ruleServeIntervalSelect').value = pts >= 21 ? '5' : '2';
+    }
+
+    function onPointsToWinRuleChange() {
+      const val = parseInt(document.getElementById('rulePointsToWinInput').value, 10);
+      if (val === 21) document.getElementById('ruleServeIntervalSelect').value = '5';
+      else if (val === 11) document.getElementById('ruleServeIntervalSelect').value = '2';
+    }
+
+    function applyRulePreset(preset) {
+      if (preset === 'ittf') {
+        document.getElementById('rulePointsToWinInput').value = '11';
+        document.getElementById('ruleServeIntervalSelect').value = '2';
+        document.getElementById('ruleDeuceCheck').checked = true;
+        document.getElementById('ruleAutoSwapCheck').checked = true;
+      } else {
+        document.getElementById('rulePointsToWinInput').value = '21';
+        document.getElementById('ruleServeIntervalSelect').value = '5';
+        document.getElementById('ruleDeuceCheck').checked = true;
+        document.getElementById('ruleAutoSwapCheck').checked = true;
+      }
+    }
+
+    function saveRulesFromModal() {
+      const bestOf = parseInt(document.getElementById('ruleBestOfSelect').value, 10) || 3;
+      const pts = Math.max(5, Math.min(50, parseInt(document.getElementById('rulePointsToWinInput').value, 10) || 11));
+      const serveInterval = parseInt(document.getElementById('ruleServeIntervalSelect').value, 10) || 2;
+      const winByTwo = document.getElementById('ruleDeuceCheck').checked;
+      const autoSwapSides = document.getElementById('ruleAutoSwapCheck').checked;
+
+      state.bestOf = bestOf;
+      state.rules = { pointsToWin: pts, serveInterval, winByTwo, autoSwapSides };
+
+      saveState();
+      renderAll();
+      closeRulesModal();
+      showToast(`Kurallar güncellendi: Bo${bestOf}, ${pts} sayı, her ${serveInterval} sayıda servis.`, 'success');
+    }
+
+    function exportTournamentJSON() {
+      const exportPayload = {
+        ...state,
+        exportedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = normalizeTr(state.title || 'masa-tenisi-turnuva').replace(/[^a-z0-9ğüşöçı]+/g, '-');
+      a.href = url;
+      a.download = `${safeName}-yedek.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Turnuva JSON yedeği indirildi.', 'success');
+    }
+
+    function resetAllScores() {
+      clearAllTables();
+      // Hangi üst tur slotlarının önceki maçtan beslendiğini tespit et
+      const fedSlots = new Set();
+      state.matches.forEach(m => {
+        if (m.nextMatchId && m.nextMatchSlot) {
+          fedSlots.add(`${m.nextMatchId}_${m.nextMatchSlot}`);
+        }
+      });
+
+      state.matches.forEach(m => {
+        m.sets = [];
+        m.p1Sets = 0;
+        m.p2Sets = 0;
+        m.winner = null;
+        if (m.round > 1) {
+          if (fedSlots.has(`${m.id}_1`)) m.player1 = null;
+          if (fedSlots.has(`${m.id}_2`)) m.player2 = null;
+        }
+        m.status = 'pending';
+      });
+      resolveAllByesAndStatuses();
+      saveState();
+      renderAll();
+      showToast('Tüm maç skorları sıfırlandı.', 'info');
+    }
+
+    /*************************************************************************
+     * 7. SEKME YÖNETİMİ
+     *************************************************************************/
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      const activePanel = document.getElementById(`tab-${tabName}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+
+      if (tabName === 'bracket') {
+        requestAnimationFrame(() => drawBracketConnectors());
+      }
+    }
+
+    /*************************************************************************
+     * 8. TURNUVA AĞACI (BRACKET) RENDER VE SVG BAĞLANTI ÇİZGİLERİ
+     *************************************************************************/
+    function handleBracketSearch(val) {
+      searchQuery = normalizeTr(val.trim());
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', !searchQuery);
+      renderBracket();
+    }
+
+    function clearBracketSearch() {
+      document.getElementById('bracketSearchInput').value = '';
+      handleBracketSearch('');
+    }
+
+    function renderBracket() {
+      const colsEl = document.getElementById('bracketColumns');
+      colsEl.innerHTML = '';
+
+      // Şampiyon banner kontrolü
+      const finalMatch = state.matches.find(m => m.round === state.totalRounds);
+      const champBanner = document.getElementById('championBanner');
+      if (finalMatch && finalMatch.status === 'completed' && finalMatch.winner) {
+        const champ = finalMatch.winner === 1 ? finalMatch.player1 : finalMatch.player2;
+        const runnerUp = finalMatch.winner === 1 ? finalMatch.player2 : finalMatch.player1;
+        document.getElementById('championName').textContent = champ;
+        const scoreSummary = finalMatch.sets.map(s => `${s.p1}-${s.p2}`).join(', ');
+        document.getElementById('championSubtext').textContent = `Finalde ${runnerUp} karşısında ${finalMatch.p1Sets}-${finalMatch.p2Sets} (${scoreSummary || 'Hükmen'}) ile kazandı.`;
+        champBanner.classList.remove('hidden');
+      } else {
+        champBanner.classList.add('hidden');
+      }
+
+      for (let r = 1; r <= state.totalRounds; r++) {
+        const roundMatches = state.matches
+          .filter(m => m.round === r)
+          .sort((a, b) => a.roundIndex - b.roundIndex);
+
+        const col = document.createElement('div');
+        col.className = 'bracket-col';
+
+        const header = document.createElement('div');
+        header.className = 'bracket-col-header';
+        header.innerHTML = `
+          <span class="bracket-col-title ${r === state.totalRounds ? 'is-final' : ''}">
+            ${escapeHtml(getRoundLabel(r, state.totalRounds))}
+          </span>
+          <span class="bracket-col-count">${roundMatches.length} Maç</span>
+        `;
+        col.appendChild(header);
+
+        const list = document.createElement('div');
+        list.className = 'bracket-col-list';
+        roundMatches.forEach(m => list.appendChild(createMatchCardElement(m)));
+
+        col.appendChild(list);
+        colsEl.appendChild(col);
+      }
+
+      requestAnimationFrame(() => drawBracketConnectors());
+    }
+
+    function createMatchCardElement(m) {
+      const p1Text = m.player1 || 'Bekleniyor...';
+      const p2Text = m.player2 || 'Bekleniyor...';
+      const isByeMatch = m.player1 === 'BAY' || m.player2 === 'BAY';
+      const liveTable = getTableByMatchId(m.id);
+
+      const hasSearch = searchQuery.length > 0;
+      const p1Matches = hasSearch && m.player1 && normalizeTr(m.player1).includes(searchQuery);
+      const p2Matches = hasSearch && m.player2 && normalizeTr(m.player2).includes(searchQuery);
+      const cardHighlighted = p1Matches || p2Matches;
+
+      let statusBadge = '';
+      if (m.status === 'live' && liveTable) {
+        statusBadge = `<span class="status-badge live"><span class="dot-live live-dot" style="width:6px;height:6px;"></span>${escapeHtml(liveTable.name)}</span>`;
+      } else if (m.status === 'completed') {
+        statusBadge = isByeMatch
+          ? `<span class="status-badge pending">BAY Geçti</span>`
+          : `<span class="status-badge completed">Tamamlandı</span>`;
+      } else if (m.status === 'ready') {
+        statusBadge = `<span class="status-badge ready">Hazır</span>`;
+      } else {
+        statusBadge = `<span class="status-badge pending">Bekliyor</span>`;
+      }
+
+      const card = document.createElement('div');
+      card.dataset.matchId = m.id;
+      card.onclick = () => openMatchModal(m.id);
+      card.className = `match-card status-${m.status}${cardHighlighted ? ' is-highlighted' : ''}${hasSearch && !cardHighlighted ? ' is-dimmed' : ''}`;
+
+      const p1Won = m.winner === 1;
+      const p2Won = m.winner === 2;
+      const showScores = m.status === 'completed' && !isByeMatch;
+
+      let p1SetDisp = '–';
+      let p2SetDisp = '–';
+      let p1LivePtHtml = '';
+      let p2LivePtHtml = '';
+
+      if (showScores) {
+        p1SetDisp = m.p1Sets;
+        p2SetDisp = m.p2Sets;
+      } else if (m.status === 'live' && liveTable) {
+        const counts = getLiveSetCounts(liveTable.live);
+        p1SetDisp = counts.p1S;
+        p2SetDisp = counts.p2S;
+        p1LivePtHtml = `<span class="live-pt-mini tabular-nums">${liveTable.live.currentSetP1}</span>`;
+        p2LivePtHtml = `<span class="live-pt-mini tabular-nums">${liveTable.live.currentSetP2}</span>`;
+      }
+
+      let setDetails = '';
+      if (m.sets && m.sets.length > 0) {
+        setDetails = m.sets.map(s => `${s.p1}-${s.p2}`).join(', ');
+      } else if (m.status === 'live' && liveTable) {
+        const doneStr = liveTable.live.sets.map(s => `${s.p1}-${s.p2}`).join(', ');
+        setDetails = doneStr
+          ? `Canlı (${liveTable.name}): ${doneStr} | ${liveTable.live.currentSetP1}-${liveTable.live.currentSetP2}`
+          : `Canlı (${liveTable.name}): ${liveTable.live.currentSetP1}-${liveTable.live.currentSetP2}`;
+      } else if (isByeMatch) {
+        setDetails = 'Otomatik tur atladı';
+      } else if (m.status === 'completed') {
+        setDetails = 'Hükmen';
+      }
+
+      card.innerHTML = `
+        <div class="match-card-top">
+          <span class="tabular-nums">Maç #${m.matchNumber}</span>
+          ${statusBadge}
+        </div>
+        <div class="match-player-row ${p1Won ? 'is-winner' : ''} ${p1Matches ? 'is-match-hit' : ''}">
+          <div class="player-name-wrap">
+            <span class="winner-bar"></span>
+            <span class="player-name-text ${(!m.player1 || m.player1 === 'BAY') ? 'is-empty' : ''}">${escapeHtml(p1Text)}</span>
+          </div>
+          <div class="player-score-pill">
+            ${p1LivePtHtml}
+            <span class="set-box tabular-nums">${p1SetDisp}</span>
+          </div>
+        </div>
+        <div class="match-player-row ${p2Won ? 'is-winner' : ''} ${p2Matches ? 'is-match-hit' : ''}">
+          <div class="player-name-wrap">
+            <span class="winner-bar"></span>
+            <span class="player-name-text ${(!m.player2 || m.player2 === 'BAY') ? 'is-empty' : ''}">${escapeHtml(p2Text)}</span>
+          </div>
+          <div class="player-score-pill">
+            ${p2LivePtHtml}
+            <span class="set-box tabular-nums">${p2SetDisp}</span>
+          </div>
+        </div>
+        ${setDetails ? `<div class="match-card-foot tabular-nums">${escapeHtml(setDetails)}</div>` : ''}
+      `;
+      return card;
+    }
+
+    function drawBracketConnectors() {
+      const canvas = document.getElementById('bracketCanvas');
+      const svg = document.getElementById('bracketConnectorsSvg');
+      if (!canvas || !svg || currentTab !== 'bracket') return;
+
+      const canvasRect = canvas.getBoundingClientRect();
+      if (canvasRect.width === 0 || canvasRect.height === 0) return;
+
+      const cs = getComputedStyle(document.documentElement);
+      const colorIdle = cs.getPropertyValue('--connector-idle').trim() || '#263859';
+      const colorDone = cs.getPropertyValue('--connector-done').trim() || '#38bdf8';
+      const colorLive = cs.getPropertyValue('--connector-live').trim() || '#34d399';
+
+      svg.setAttribute('width', canvas.scrollWidth);
+      svg.setAttribute('height', canvas.scrollHeight);
+      svg.innerHTML = '';
+
+      state.matches.forEach(m => {
+        if (!m.nextMatchId) return;
+        const fromEl = canvas.querySelector(`[data-match-id="${m.id}"]`);
+        const toEl = canvas.querySelector(`[data-match-id="${m.nextMatchId}"]`);
+        if (!fromEl || !toEl) return;
+
+        const r1 = fromEl.getBoundingClientRect();
+        const r2 = toEl.getBoundingClientRect();
+
+        const x1 = r1.right - canvasRect.left;
+        const y1 = r1.top + r1.height / 2 - canvasRect.top;
+        const x2 = r2.left - canvasRect.left;
+        const y2 = r2.top + r2.height / 2 - canvasRect.top;
+        const midX = x1 + (x2 - x1) * 0.5;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke-width', m.status === 'completed' || m.status === 'live' ? '2.2' : '1.5');
+        path.setAttribute('stroke', m.status === 'completed' ? colorDone : (m.status === 'live' ? colorLive : colorIdle));
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+        svg.appendChild(path);
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      if (currentTab === 'bracket') requestAnimationFrame(() => drawBracketConnectors());
+    });
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (currentTab === 'bracket') requestAnimationFrame(() => drawBracketConnectors());
+      });
+    }
+
+    /*************************************************************************
+     * 9. MAÇ DETAY VE HIZLI SKOR MODALI
+     *************************************************************************/
+    function openMatchModal(matchId) {
+      const m = getMatchById(matchId);
+      if (!m) return;
+      modalMatchId = matchId;
+
+      const isBye = m.player1 === 'BAY' || m.player2 === 'BAY';
+      const bothReady = Boolean(m.player1 && m.player2 && !isBye);
+      const liveTable = getTableByMatchId(m.id);
+
+      document.getElementById('modalMatchTitle').textContent = `Maç #${m.matchNumber} — ${getRoundLabel(m.round, state.totalRounds)}`;
+      document.getElementById('modalMatchSubtitle').textContent = bothReady
+        ? (liveTable ? `Şu an ${liveTable.name} üzerinde canlı oynanıyor.` : 'Canlı masa skoruna geçebilir veya set skorlarını doğrudan girebilirsiniz.')
+        : (isBye ? 'Bu eşleşme BAY ile otomatik tamamlandı.' : 'Eşleşmenin başlaması için önceki tur maçlarının bitmesi bekleniyor.');
+
+      document.getElementById('modalP1Name').textContent = m.player1 || 'Bekleniyor...';
+      document.getElementById('modalP2Name').textContent = m.player2 || 'Bekleniyor...';
+      document.getElementById('modalBestOfHint').textContent = `Bo${state.bestOf} (${setsNeededToWin()} Set Alan • ${state.rules.pointsToWin} Sayı)`;
+
+      const startBtn = document.getElementById('modalStartLiveBtn');
+      startBtn.disabled = !bothReady;
+      document.getElementById('modalStartLiveText').textContent = liveTable
+        ? `Canlı Skora Dön (${liveTable.name})`
+        : (m.status === 'completed' ? 'Maçı Canlı Masada Yeniden Oyna' : 'Canlı Skor Ekranında Başlat (Masa Modu)');
+
+      const quickSec = document.getElementById('modalQuickScoreSection');
+      quickSec.style.opacity = bothReady ? '1' : '0.42';
+      quickSec.style.pointerEvents = bothReady ? 'auto' : 'none';
+
+      const rowsEl = document.getElementById('modalSetRows');
+      rowsEl.innerHTML = '';
+      const maxSets = Math.max(state.bestOf, (m.sets ? m.sets.length : 0));
+      for (let i = 0; i < maxSets; i++) {
+        const existing = m.sets && m.sets[i] ? m.sets[i] : { p1: '', p2: '' };
+        const row = document.createElement('div');
+        row.className = 'set-row-grid';
+        row.innerHTML = `
+          <span class="text-xs font-bold muted">${i + 1}. Set</span>
+          <input type="number" min="0" max="99" placeholder="0" value="${existing.p1}" data-set-idx="${i}" data-side="p1"
+            oninput="updateModalLivePreview()" class="text-input set-input modal-set-input tabular-nums" />
+          <span class="muted font-bold" style="text-align:center;">-</span>
+          <input type="number" min="0" max="99" placeholder="0" value="${existing.p2}" data-set-idx="${i}" data-side="p2"
+            oninput="updateModalLivePreview()" class="text-input set-input modal-set-input tabular-nums" />
+        `;
+        rowsEl.appendChild(row);
+      }
+
+      updateModalLivePreview();
+      document.getElementById('matchModal').classList.remove('hidden');
+    }
+
+    function closeMatchModal() {
+      document.getElementById('matchModal').classList.add('hidden');
+      modalMatchId = null;
+    }
+
+    function readModalSets() {
+      const sets = [];
+      const inputsP1 = document.querySelectorAll('.modal-set-input[data-side="p1"]');
+      inputsP1.forEach(inp1 => {
+        const i = inp1.dataset.setIdx;
+        const inp2 = document.querySelector(`.modal-set-input[data-set-idx="${i}"][data-side="p2"]`);
+        if (!inp2) return;
+        const v1 = inp1.value.trim();
+        const v2 = inp2.value.trim();
+        if (v1 !== '' || v2 !== '') {
+          sets.push({
+            p1: Math.max(0, parseInt(v1 || '0', 10)),
+            p2: Math.max(0, parseInt(v2 || '0', 10))
+          });
+        }
+      });
+      return sets;
+    }
+
+    function updateModalLivePreview() {
+      const m = getMatchById(modalMatchId);
+      if (!m) return;
+      const sets = readModalSets();
+      let p1S = 0, p2S = 0;
+      sets.forEach(s => { if (s.p1 > s.p2) p1S++; else if (s.p2 > s.p1) p2S++; });
+      document.getElementById('modalPreviewSets').textContent = `${p1S} - ${p2S}`;
+
+      const notice = document.getElementById('modalWinnerNotice');
+      const needed = setsNeededToWin();
+      if (p1S >= needed || p2S >= needed) {
+        const wName = p1S > p2S ? m.player1 : m.player2;
+        notice.textContent = `Kazanan: ${wName} (${p1S}-${p2S}) — Kaydettiğinizde otomatik üst tura yerleşecek.`;
+        notice.classList.remove('hidden');
+      } else if (sets.length > 0 && p1S !== p2S) {
+        const wName = p1S > p2S ? m.player1 : m.player2;
+        notice.textContent = `Mevcut üstünlük: ${wName} (${p1S}-${p2S}). Kaydederseniz kazanan olarak işlenir.`;
+        notice.classList.remove('hidden');
+      } else {
+        notice.classList.add('hidden');
+      }
+    }
+
+    function saveQuickScoreFromModal() {
+      const m = getMatchById(modalMatchId);
+      if (!m) return;
+      const sets = readModalSets();
+      if (sets.length === 0) {
+        showToast('Lütfen en az bir set skoru girin.', 'warning');
+        return;
+      }
+      let p1S = 0, p2S = 0;
+      for (const s of sets) {
+        if (s.p1 === s.p2) {
+          showToast('Bir set berabere bitemez. Lütfen set skorlarını kontrol edin.', 'warning');
+          return;
+        }
+        if (s.p1 > s.p2) p1S++; else p2S++;
+      }
+      if (p1S === p2S) {
+        showToast('Set toplamları eşit olamaz. Kazananın belirlenmesi için karar setini girin.', 'warning');
+        return;
+      }
+
+      applyMatchResult(m.id, sets);
+      closeMatchModal();
+      playTone('match');
+      showToast(`Maç #${m.matchNumber} skoru kaydedildi ve kazanan üst tura taşındı!`, 'success');
+    }
+
+    function applyWalkoverFromModal(winnerSlot) {
+      const m = getMatchById(modalMatchId);
+      if (!m) return;
+      const needed = setsNeededToWin();
+      const pts = state.rules.pointsToWin;
+      const sets = [];
+      for (let i = 0; i < needed; i++) {
+        sets.push(winnerSlot === 1 ? { p1: pts, p2: 0 } : { p1: 0, p2: pts });
+      }
+      applyMatchResult(m.id, sets, winnerSlot);
+      closeMatchModal();
+      playTone('match');
+      const wName = winnerSlot === 1 ? m.player1 : m.player2;
+      showToast(`${wName} hükmen galip ilan edildi.`, 'success');
+    }
+
+    function clearMatchScoreFromModal() {
+      const id = modalMatchId;
+      if (!id) return;
+      clearMatchResultCascade(id);
+      resolveAllByesAndStatuses();
+      saveState();
+      renderAll();
+      closeMatchModal();
+      showToast('Maç skoru temizlendi.', 'info');
+    }
+
+    function startLiveFromModal() {
+      const id = modalMatchId;
+      if (!id) return;
+      closeMatchModal();
+      startLiveMatch(id);
+    }
+
+    /*************************************************************************
+     * 10. ÇOKLU MASA VE CANLI SKOR TABELASI (RESMİ ITTF KURALLARI)
+     *************************************************************************/
+    function selectTable(tableId) {
+      state.selectedTableId = tableId;
+      saveState();
+      renderLiveScoreboard();
+    }
+
+    function addNewTable() {
+      if (state.tables.length >= 8) {
+        showToast('En fazla 8 masa ekleyebilirsiniz.', 'warning');
+        return;
+      }
+      const maxId = state.tables.reduce((acc, t) => Math.max(acc, t.id), 0);
+      const nextId = maxId + 1;
+      state.tables.push({ id: nextId, name: `Masa ${nextId}`, matchId: null, live: createEmptyLiveState() });
+      state.selectedTableId = nextId;
+      saveState();
+      renderLiveScoreboard();
+      showToast(`Masa ${nextId} eklendi.`, 'info');
+    }
+
+    function removeCurrentTable() {
+      const tbl = getSelectedTable();
+      if (!tbl || state.tables.length <= 1) return;
+      if (tbl.matchId) {
+        showToast('Aktif maç olan masa silinemez. Önce masayı boşaltın.', 'warning');
+        return;
+      }
+      state.tables = state.tables.filter(t => t.id !== tbl.id);
+      state.selectedTableId = state.tables[0].id;
+      saveState();
+      renderLiveScoreboard();
+      showToast(`${tbl.name} kaldırıldı.`, 'info');
+    }
+
+    function startLiveMatch(matchId) {
+      const m = getMatchById(matchId);
+      if (!m || !m.player1 || !m.player2 || m.player1 === 'BAY' || m.player2 === 'BAY') {
+        showToast('Bu maç henüz canlı başlatılmaya hazır değil.', 'warning');
+        return;
+      }
+
+      // Zaten bir masada canlıysa doğrudan o masaya geç
+      const existingTable = getTableByMatchId(matchId);
+      if (existingTable) {
+        state.selectedTableId = existingTable.id;
+        saveState();
+        renderAll();
+        switchTab('live');
+        return;
+      }
+
+      const proceedStart = () => {
+        // Tamamlanmış maçsa önce eski sonucu ve üst tur etkisini temizle
+        if (m.status === 'completed' || m.winner) {
+          clearMatchResultCascade(m.id);
+          resolveAllByesAndStatuses();
+        }
+
+        // Önce seçili masa boşsa orayı, değilse ilk boş masayı seç
+        let targetTable = getSelectedTable();
+        if (targetTable && targetTable.matchId) {
+          const emptyTbl = state.tables.find(t => !t.matchId);
+          if (emptyTbl) {
+            targetTable = emptyTbl;
+          } else if (state.tables.length < 8) {
+            const nextId = state.tables.reduce((acc, t) => Math.max(acc, t.id), 0) + 1;
+            targetTable = { id: nextId, name: `Masa ${nextId}`, matchId: null, live: createEmptyLiveState() };
+            state.tables.push(targetTable);
+          } else {
+            showToast('Tüm masalar (8/8) dolu! Önce bir maçı bitirin veya masayı boşaltın.', 'warning');
+            return;
+          }
+        }
+
+        targetTable.matchId = matchId;
+        targetTable.live = createEmptyLiveState();
+        state.selectedTableId = targetTable.id;
+        m.status = 'live';
+
+        saveState();
+        renderAll();
+        switchTab('live');
+        playTone('swap');
+        showToast(`Maç #${m.matchNumber} → ${targetTable.name} üzerinde başlatıldı!`, 'success');
+      };
+
+      if (m.status === 'completed' || m.winner) {
+        openConfirmModal(
+          'Tamamlanan Maçı Yeniden Başlat',
+          `Maç #${m.matchNumber} daha önce tamamlandı. Canlı masada yeniden başlatılırsa eski skor ve üst tura taşınan kazanan temizlenecek. Devam edilsin mi?`,
+          proceedStart
+        );
+      } else {
+        proceedStart();
+      }
+    }
+
+    /**
+     * Resmi ITTF servis hesaplayıcısı:
+     * - Her sette ilk servis atan oyuncu değişir.
+     * - Deuce (p1 >= pts-1 && p2 >= pts-1 && winByTwo) durumunda her 1 sayıda bir,
+     *   normalde her `serveInterval` sayıda bir servis değişir.
+     * - Döndürdüğü nesne: { player: 1|2, serveNum, serveTotal, isDeuce }
+     */
+    function getServeInfo(live) {
+      const pts = state.rules.pointsToWin;
+      const interval = state.rules.serveInterval;
+      const winByTwo = state.rules.winByTwo;
+
+      const setIndex = live.sets.length;
+      const setFirstServer = (setIndex % 2 === 0)
+        ? live.initialServer
+        : (live.initialServer === 1 ? 2 : 1);
+
+      const p1 = live.currentSetP1;
+      const p2 = live.currentSetP2;
+      const total = p1 + p2;
+      const deuceThreshold = pts - 1;
+      const inDeuceZone = winByTwo && p1 >= deuceThreshold && p2 >= deuceThreshold;
+
+      let switches;
+      let serveNum = 1;
+      let serveTotal = interval;
+
+      if (inDeuceZone) {
+        const preDeuceTotal = deuceThreshold * 2;
+        const preSwitches = Math.floor(preDeuceTotal / interval);
+        switches = preSwitches + (total - preDeuceTotal);
+        serveNum = 1;
+        serveTotal = 1;
+      } else {
+        switches = Math.floor(total / interval);
+        serveNum = (total % interval) + 1;
+        serveTotal = interval;
+      }
+
+      const player = (switches % 2 === 0) ? setFirstServer : (setFirstServer === 1 ? 2 : 1);
+      return { player, serveNum, serveTotal, isDeuce: inDeuceZone };
+    }
+
+    function getLiveSetCounts(live) {
+      let p1S = 0, p2S = 0;
+      live.sets.forEach(s => {
+        if (s.p1 > s.p2) p1S++;
+        else if (s.p2 > s.p1) p2S++;
+      });
+      return { p1S, p2S };
+    }
+
+    function isLiveMatchFinished(live) {
+      const { p1S, p2S } = getLiveSetCounts(live);
+      const needed = setsNeededToWin();
+      return p1S >= needed || p2S >= needed;
+    }
+
+    function isSetWon(p1, p2) {
+      const pts = state.rules.pointsToWin;
+      if (state.rules.winByTwo) {
+        return (p1 >= pts || p2 >= pts) && Math.abs(p1 - p2) >= 2;
+      }
+      return p1 >= pts || p2 >= pts;
+    }
+
+    function pushLiveHistory(live) {
+      live.history.push({
+        currentSetP1: live.currentSetP1,
+        currentSetP2: live.currentSetP2,
+        sets: live.sets.map(s => ({ ...s })),
+        initialServer: live.initialServer,
+        swappedSides: live.swappedSides,
+        decidingSetSwapped: live.decidingSetSwapped,
+        p1TimeoutUsed: live.p1TimeoutUsed,
+        p2TimeoutUsed: live.p2TimeoutUsed,
+        swapBannerText: live.swapBannerText
+      });
+      if (live.history.length > 200) live.history.shift();
+    }
+
+    function adjustLivePoint(visualSide, delta) {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      const live = tbl.live;
+      const m = getMatchById(tbl.matchId);
+      if (!m) return;
+
+      if (delta > 0 && isLiveMatchFinished(live)) {
+        showToast('Maç hedef sete ulaştı. "Maçı Bitir ve Ağaca İşle" butonuna basın veya Geri Al kullanın.', 'info');
+        return;
+      }
+
+      const targetPlayer = (visualSide === 'left')
+        ? (live.swappedSides ? 2 : 1)
+        : (live.swappedSides ? 1 : 2);
+
+      // -1 basıldığında mevcut set puanı 0 ise ve az önce set bittiyse (0-0), son hamleyi temizce geri al
+      if (delta < 0) {
+        const curScore = targetPlayer === 1 ? live.currentSetP1 : live.currentSetP2;
+        if (curScore === 0) {
+          if (live.currentSetP1 === 0 && live.currentSetP2 === 0 && live.sets.length > 0 && live.history.length > 0) {
+            undoLiveAction();
+            return;
+          }
+          return;
+        }
+      }
+
+      pushLiveHistory(live);
+      live.swapBannerText = '';
+
+      if (targetPlayer === 1) {
+        live.currentSetP1 = Math.max(0, live.currentSetP1 + delta);
+      } else {
+        live.currentSetP2 = Math.max(0, live.currentSetP2 + delta);
+      }
+
+      const p1 = live.currentSetP1;
+      const p2 = live.currentSetP2;
+
+      if (isSetWon(p1, p2)) {
+        const setWinnerName = p1 > p2 ? m.player1 : m.player2;
+        live.sets.push({ p1, p2 });
+        live.currentSetP1 = 0;
+        live.currentSetP2 = 0;
+        live.decidingSetSwapped = false;
+
+        if (isLiveMatchFinished(live)) {
+          live.timerRunning = false;
+          playTone('match');
+          showToast(`Maç tamamlandı! Kazanan: ${setWinnerName}`, 'success');
+        } else {
+          // Set bitti — ITTF kuralı: otomatik saha değişimi
+          if (state.rules.autoSwapSides) {
+            live.swappedSides = !live.swappedSides;
+            live.swapBannerText = `${live.sets.length}. SET BİTTİ • SAHA DEĞİŞTİRİLDİ`;
+          }
+          playTone('set');
+          showToast(`${live.sets.length}. Set bitti (${p1}-${p2}) • ${setWinnerName} kazandı!`, 'info');
+        }
+      } else {
+        // Karar setinde yarı puanda (11'likte 5, 21'likte 10) otomatik saha değişimi
+        const { p1S, p2S } = getLiveSetCounts(live);
+        const needed = setsNeededToWin();
+        const isDecidingSet = needed > 1 && p1S === needed - 1 && p2S === needed - 1;
+        const halfPoint = Math.floor(state.rules.pointsToWin / 2);
+
+        if (isDecidingSet && !live.decidingSetSwapped && (p1 === halfPoint || p2 === halfPoint) && delta > 0) {
+          live.decidingSetSwapped = true;
+          if (state.rules.autoSwapSides) {
+            live.swappedSides = !live.swappedSides;
+            live.swapBannerText = `KARAR SETİ ${halfPoint}. SAYI • SAHA DEĞİŞTİRİLDİ!`;
+            playTone('swap');
+            showToast(`Karar setinde ${halfPoint}. sayıya ulaşıldı — Sahalar değiştirildi!`, 'warning');
+          } else {
+            live.swapBannerText = `KARAR SETİ ${halfPoint}. SAYI • SAHA DEĞİŞİMİ ZAMANI`;
+            playTone('swap');
+          }
+        } else {
+          playTone(delta > 0 ? 'point' : 'undo');
+        }
+      }
+
+      saveState();
+      renderLiveScoreboard(visualSide);
+      renderBracket();
+    }
+
+    function undoLiveAction() {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId || tbl.live.history.length === 0) return;
+      const prev = tbl.live.history.pop();
+      tbl.live.currentSetP1 = prev.currentSetP1;
+      tbl.live.currentSetP2 = prev.currentSetP2;
+      tbl.live.sets = prev.sets;
+      tbl.live.initialServer = prev.initialServer;
+      tbl.live.swappedSides = prev.swappedSides;
+      tbl.live.decidingSetSwapped = prev.decidingSetSwapped;
+      tbl.live.p1TimeoutUsed = prev.p1TimeoutUsed;
+      tbl.live.p2TimeoutUsed = prev.p2TimeoutUsed;
+      tbl.live.swapBannerText = prev.swapBannerText || '';
+      tbl.live.timerRunning = true;
+
+      playTone('undo');
+      saveState();
+      renderLiveScoreboard();
+      renderBracket();
+    }
+
+    function swapLiveSides(manual = false) {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      pushLiveHistory(tbl.live);
+      tbl.live.swappedSides = !tbl.live.swappedSides;
+      tbl.live.swapBannerText = '';
+      if (manual) playTone('swap');
+      saveState();
+      renderLiveScoreboard();
+      if (manual) showToast('Oyuncuların saha tarafları değiştirildi.', 'info');
+    }
+
+    function toggleInitialServer() {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      pushLiveHistory(tbl.live);
+      tbl.live.initialServer = tbl.live.initialServer === 1 ? 2 : 1;
+      playTone('point');
+      saveState();
+      renderLiveScoreboard();
+      showToast('İlk servis atan oyuncu değiştirildi.', 'info');
+    }
+
+    function toggleLiveTimer() {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      tbl.live.timerRunning = !tbl.live.timerRunning;
+      saveState();
+      renderLiveScoreboard();
+    }
+
+    function requestTimeout(visualSide) {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      const m = getMatchById(tbl.matchId);
+      const live = tbl.live;
+      const playerSlot = (visualSide === 'left') ? (live.swappedSides ? 2 : 1) : (live.swappedSides ? 1 : 2);
+      const used = playerSlot === 1 ? live.p1TimeoutUsed : live.p2TimeoutUsed;
+      if (used) {
+        showToast('Bu oyuncu bu maçtaki mola hakkını zaten kullandı.', 'warning');
+        return;
+      }
+
+      pushLiveHistory(live);
+      if (playerSlot === 1) live.p1TimeoutUsed = true;
+      else live.p2TimeoutUsed = true;
+
+      const pName = playerSlot === 1 ? m.player1 : m.player2;
+      stopTimeout();
+      timeoutState.active = true;
+      timeoutState.playerName = pName;
+      timeoutState.secondsLeft = 60;
+      playTone('swap');
+
+      const renderTimeoutBanner = () => {
+        const banner = document.getElementById('liveTimeoutBanner');
+        if (!timeoutState.active) {
+          banner.classList.add('hidden');
+          return;
+        }
+        banner.classList.remove('hidden');
+        document.getElementById('timeoutBannerTitle').textContent = `MOLA • ${timeoutState.playerName}`;
+        document.getElementById('timeoutBannerCountdown').textContent = formatClock(timeoutState.secondsLeft);
+      };
+
+      renderTimeoutBanner();
+      timeoutState.intervalId = setInterval(() => {
+        timeoutState.secondsLeft--;
+        if (timeoutState.secondsLeft <= 0) {
+          stopTimeout();
+          playTone('timeout');
+          showToast(`${pName} molası sona erdi!`, 'warning');
+        } else {
+          renderTimeoutBanner();
+        }
+      }, 1000);
+
+      saveState();
+      renderLiveScoreboard();
+    }
+
+    function stopTimeout() {
+      if (timeoutState.intervalId) clearInterval(timeoutState.intervalId);
+      timeoutState = { active: false, playerName: '', secondsLeft: 60, intervalId: null };
+      const banner = document.getElementById('liveTimeoutBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    function commitLiveMatchToBracket() {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      const m = getMatchById(tbl.matchId);
+      if (!m) return;
+
+      const finalSets = tbl.live.sets.map(s => ({ ...s }));
+      if (finalSets.length === 0) {
+        showToast('Kaydedilecek tamamlanmış set bulunmuyor.', 'warning');
+        return;
+      }
+
+      stopTimeout();
+      if (isProjectorMode) toggleProjectorMode();
+      applyMatchResult(m.id, finalSets);
+      switchTab('bracket');
+      showToast(`Maç #${m.matchNumber} turnuva ağacına işlendi!`, 'success');
+    }
+
+    function cancelLiveMatch() {
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+      const m = getMatchById(tbl.matchId);
+      if (m && m.status === 'live') {
+        m.status = 'ready';
+      }
+      tbl.matchId = null;
+      tbl.live = createEmptyLiveState();
+      stopTimeout();
+      if (isProjectorMode) toggleProjectorMode();
+      saveState();
+      renderAll();
+      showToast(`${tbl.name} boşaltıldı.`, 'info');
+    }
+
+    function toggleProjectorMode() {
+      const container = document.getElementById('liveScoreboardContainer');
+      const btnText = document.getElementById('projectorBtnText');
+      isProjectorMode = !isProjectorMode;
+
+      if (isProjectorMode) {
+        container.classList.add('projector-mode');
+        btnText.textContent = 'Tam Ekrandan Çık';
+        try {
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+        } catch (_) {}
+      } else {
+        container.classList.remove('projector-mode');
+        btnText.textContent = 'Projektör Modu';
+        try {
+          if (document.fullscreenElement && document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          }
+        } catch (_) {}
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isProjectorMode) {
+        isProjectorMode = false;
+        document.getElementById('liveScoreboardContainer').classList.remove('projector-mode');
+        document.getElementById('projectorBtnText').textContent = 'Projektör Modu';
+      }
+    });
+
+    function renderTableTabs() {
+      const container = document.getElementById('tableTabsContainer');
+      container.innerHTML = '';
+
+      let activeCount = 0;
+      state.tables.forEach(t => {
+        const m = t.matchId ? getMatchById(t.matchId) : null;
+        if (m) activeCount++;
+        const isSel = t.id === state.selectedTableId;
+        const btn = document.createElement('button');
+        btn.className = `table-pill${isSel ? ' active' : ''}`;
+        btn.onclick = () => selectTable(t.id);
+
+        let sub = 'Boş';
+        if (m) {
+          const { p1S, p2S } = getLiveSetCounts(t.live);
+          sub = `#${m.matchNumber} (${p1S}-${p2S} • ${t.live.currentSetP1}-${t.live.currentSetP2})`;
+        }
+
+        btn.innerHTML = `
+          ${m ? '<span class="dot-live live-dot"></span>' : ''}
+          <span>${escapeHtml(t.name)}</span>
+          <span class="table-pill-sub tabular-nums">${escapeHtml(sub)}</span>
+        `;
+        container.appendChild(btn);
+      });
+
+      const curTbl = getSelectedTable();
+      const removeBtn = document.getElementById('removeTableBtn');
+      removeBtn.classList.toggle('hidden', state.tables.length <= 1 || Boolean(curTbl && curTbl.matchId));
+
+      document.getElementById('liveTabBadge').classList.toggle('hidden', activeCount === 0);
+      const cntBadge = document.getElementById('liveActiveCountBadge');
+      cntBadge.textContent = String(activeCount);
+      cntBadge.classList.toggle('hidden', activeCount === 0);
+    }
+
+    function renderLiveScoreboard(animateSide = null) {
+      renderTableTabs();
+
+      const emptyEl = document.getElementById('liveEmptyState');
+      const activeEl = document.getElementById('liveActiveView');
+      const tbl = getSelectedTable();
+      const m = (tbl && tbl.matchId) ? getMatchById(tbl.matchId) : null;
+
+      if (!tbl || !m) {
+        emptyEl.classList.remove('hidden');
+        activeEl.classList.add('hidden');
+        document.getElementById('liveEmptyTitle').textContent = tbl ? `${tbl.name} Şu An Boş` : 'Masada Aktif Maç Yok';
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+      activeEl.classList.remove('hidden');
+
+      const live = tbl.live;
+      const { p1S, p2S } = getLiveSetCounts(live);
+      const finished = isLiveMatchFinished(live);
+      const serveInfo = getServeInfo(live);
+      const swapped = live.swappedSides;
+      const pts = state.rules.pointsToWin;
+      const needed = setsNeededToWin();
+
+      const leftData = swapped
+        ? { name: m.player2, sets: p2S, score: live.currentSetP2, isServing: serveInfo.player === 2, timeoutUsed: live.p2TimeoutUsed }
+        : { name: m.player1, sets: p1S, score: live.currentSetP1, isServing: serveInfo.player === 1, timeoutUsed: live.p1TimeoutUsed };
+
+      const rightData = swapped
+        ? { name: m.player1, sets: p1S, score: live.currentSetP1, isServing: serveInfo.player === 1, timeoutUsed: live.p1TimeoutUsed }
+        : { name: m.player2, sets: p2S, score: live.currentSetP2, isServing: serveInfo.player === 2, timeoutUsed: live.p2TimeoutUsed };
+
+      document.getElementById('liveTableBadgeText').textContent = `${tbl.name} • Canlı`;
+      document.getElementById('liveMatchMeta').textContent = `Maç #${m.matchNumber} • ${getRoundLabel(m.round, state.totalRounds)} • ${finished ? 'Maç Bitti' : `${live.sets.length + 1}. Set`}`;
+      document.getElementById('liveRuleInfo').textContent = `Bo${state.bestOf} (${needed} Set) • ${pts} Sayı${state.rules.winByTwo ? ' (2 Fark)' : ''} • Her ${state.rules.serveInterval} Sayıda Servis`;
+      document.getElementById('liveTimerText').textContent = `${live.timerRunning ? '' : '⏸ '}${formatClock(live.elapsedSeconds || 0)}`;
+
+      document.getElementById('leftPlayerName').textContent = leftData.name;
+      document.getElementById('leftPlayerSets').textContent = leftData.sets;
+      const leftScoreEl = document.getElementById('leftPlayerScore');
+      leftScoreEl.textContent = leftData.score;
+
+      document.getElementById('rightPlayerName').textContent = rightData.name;
+      document.getElementById('rightPlayerSets').textContent = rightData.sets;
+      const rightScoreEl = document.getElementById('rightPlayerScore');
+      rightScoreEl.textContent = rightData.score;
+
+      if (animateSide === 'left') {
+        leftScoreEl.classList.remove('score-pop');
+        void leftScoreEl.offsetWidth;
+        leftScoreEl.classList.add('score-pop');
+      } else if (animateSide === 'right') {
+        rightScoreEl.classList.remove('score-pop');
+        void rightScoreEl.offsetWidth;
+        rightScoreEl.classList.add('score-pop');
+      }
+
+      // Servis rozetleri
+      const serveText = serveInfo.isDeuce
+        ? 'SERVİS (DEUCE)'
+        : (serveInfo.serveTotal > 1 ? `SERVİS (${serveInfo.serveNum}/${serveInfo.serveTotal})` : 'SERVİS');
+
+      document.getElementById('leftServeText').textContent = serveText;
+      document.getElementById('rightServeText').textContent = serveText;
+      document.getElementById('leftServeBadge').classList.toggle('hidden', finished || !leftData.isServing);
+      document.getElementById('rightServeBadge').classList.toggle('hidden', finished || !rightData.isServing);
+      document.getElementById('leftPlayerCard').classList.toggle('is-serving', !finished && leftData.isServing);
+      document.getElementById('rightPlayerCard').classList.toggle('is-serving', !finished && rightData.isServing);
+
+      // Mola butonları
+      document.getElementById('leftTimeoutStatus').textContent = leftData.timeoutUsed ? 'Mola Kullanıldı' : 'Mola Hakkı: 1';
+      document.getElementById('leftTimeoutBtn').disabled = leftData.timeoutUsed || finished;
+      document.getElementById('rightTimeoutStatus').textContent = rightData.timeoutUsed ? 'Mola Kullanıldı' : 'Mola Hakkı: 1';
+      document.getElementById('rightTimeoutBtn').disabled = rightData.timeoutUsed || finished;
+
+      // Deuce / Set Noktası / Maç Noktası bilgisi
+      const statusPill = document.getElementById('liveStatusPill');
+      const p1 = live.currentSetP1;
+      const p2 = live.currentSetP2;
+      const deuceAt = pts - 1;
+
+      if (finished) {
+        statusPill.classList.add('hidden');
+      } else if (state.rules.winByTwo && p1 >= deuceAt && p2 >= deuceAt && p1 === p2) {
+        statusPill.textContent = 'DEUCE (EŞİTLİK) • 2 FARK ARANIR • HER SAYIDA SERVİS DEĞİŞİR';
+        statusPill.className = 'status-pill deuce';
+      } else if (!state.rules.winByTwo && p1 === deuceAt && p2 === deuceAt) {
+        const isDoubleMatch = (p1S === needed - 1) || (p2S === needed - 1);
+        statusPill.textContent = isDoubleMatch ? 'KARAR SAYISI • ÇİFT MAÇ / SET NOKTASI' : 'KARAR SAYISI • ÇİFT SET NOKTASI';
+        statusPill.className = isDoubleMatch ? 'status-pill matchpoint' : 'status-pill setpoint';
+      } else if (
+        (p1 >= deuceAt && (state.rules.winByTwo ? p1 > p2 : p1 === deuceAt)) ||
+        (p2 >= deuceAt && (state.rules.winByTwo ? p2 > p1 : p2 === deuceAt))
+      ) {
+        const leadingP = p1 > p2 ? 1 : 2;
+        const leaderName = leadingP === 1 ? m.player1 : m.player2;
+        const isMatchPoint = (leadingP === 1 && p1S === needed - 1) || (leadingP === 2 && p2S === needed - 1);
+        statusPill.textContent = isMatchPoint ? `MAÇ NOKTASI • ${leaderName}` : `SET NOKTASI • ${leaderName}`;
+        statusPill.className = isMatchPoint ? 'status-pill matchpoint' : 'status-pill setpoint';
+      } else {
+        statusPill.classList.add('hidden');
+      }
+
+      const swapPill = document.getElementById('liveSwapNoticePill');
+      if (live.swapBannerText && !finished) {
+        swapPill.textContent = live.swapBannerText;
+        swapPill.classList.remove('hidden');
+      } else {
+        swapPill.classList.add('hidden');
+      }
+
+      // Maç tamamlandı banner'ı
+      const finBanner = document.getElementById('liveMatchFinishedBanner');
+      if (finished) {
+        const winnerName = p1S > p2S ? m.player1 : m.player2;
+        document.getElementById('liveWinnerHeadline').textContent = `Kazanan: ${winnerName} (${p1S} - ${p2S})`;
+        finBanner.classList.remove('hidden');
+      } else {
+        finBanner.classList.add('hidden');
+      }
+
+      document.getElementById('undoLiveBtn').disabled = live.history.length === 0;
+
+      // Set geçmişi chipleri (mevcut Sol-Sağ sırasına göre göster)
+      const chipsEl = document.getElementById('liveSetHistoryChips');
+      if (live.sets.length === 0) {
+        chipsEl.innerHTML = `<span class="text-xs muted" style="font-style:italic;">Henüz tamamlanan set yok</span>`;
+      } else {
+        chipsEl.innerHTML = live.sets.map((s, idx) => {
+          const lVal = swapped ? s.p2 : s.p1;
+          const rVal = swapped ? s.p1 : s.p2;
+          return `<span class="set-chip tabular-nums"><span class="muted" style="margin-right:4px;">S${idx + 1}:</span>${lVal}-${rVal}</span>`;
+        }).join('');
+      }
+    }
+
+    // Canlı kronometre döngüsü
+    function startLiveTicker() {
+      if (liveTickerId) clearInterval(liveTickerId);
+      liveTickerId = setInterval(() => {
+        let changed = false;
+        state.tables.forEach(t => {
+          if (t.matchId && t.live.timerRunning && !isLiveMatchFinished(t.live)) {
+            t.live.elapsedSeconds = (t.live.elapsedSeconds || 0) + 1;
+            changed = true;
+          }
+        });
+        if (changed && currentTab === 'live') {
+          const tbl = getSelectedTable();
+          if (tbl && tbl.matchId) {
+            const el = document.getElementById('liveTimerText');
+            if (el) el.textContent = `${tbl.live.timerRunning ? '' : '⏸ '}${formatClock(tbl.live.elapsedSeconds || 0)}`;
+          }
+        }
+      }, 1000);
+    }
+
+    /*************************************************************************
+     * 11. KLAVYE KISAYOLLARI
+     *************************************************************************/
+    document.addEventListener('keydown', (e) => {
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
+      if (e.key === 'Escape') {
+        if (!document.getElementById('matchModal').classList.contains('hidden')) { closeMatchModal(); return; }
+        if (!document.getElementById('rulesModal').classList.contains('hidden')) { closeRulesModal(); return; }
+        if (!document.getElementById('confirmModal').classList.contains('hidden')) { closeConfirmModal(); return; }
+        if (isProjectorMode) { toggleProjectorMode(); return; }
+      }
+
+      if (currentTab !== 'live') return;
+
+      // 1..8 ile masalar arası geçiş
+      if (!e.ctrlKey && !e.metaKey && !e.altKey && /^[1-8]$/.test(e.key)) {
+        const idx = parseInt(e.key, 10) - 1;
+        if (state.tables[idx]) {
+          selectTable(state.tables[idx].id);
+          return;
+        }
+      }
+
+      const tbl = getSelectedTable();
+      if (!tbl || !tbl.matchId) return;
+
+      const key = e.key.toLowerCase();
+      if (key === 'q' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        adjustLivePoint('left', 1);
+      } else if (key === 'a') {
+        e.preventDefault();
+        adjustLivePoint('left', -1);
+      } else if (key === 'p' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        adjustLivePoint('right', 1);
+      } else if (key === 'l') {
+        e.preventDefault();
+        adjustLivePoint('right', -1);
+      } else if (key === 's') {
+        e.preventDefault();
+        swapLiveSides(true);
+      } else if (key === 'f') {
+        e.preventDefault();
+        toggleProjectorMode();
+      } else if (key === 'z' || ((e.ctrlKey || e.metaKey) && key === 'z')) {
+        e.preventDefault();
+        undoLiveAction();
+      }
+    });
+
+    /*************************************************************************
+     * 12. SIRADAKİ MAÇLAR (MASA KUYRUĞU) RENDER
+     *************************************************************************/
+    function renderQueue() {
+      const readyMatches = state.matches
+        .filter(m => m.status === 'ready' || m.status === 'live')
+        .sort((a, b) => {
+          if (a.status === 'live' && b.status !== 'live') return -1;
+          if (b.status === 'live' && a.status !== 'live') return 1;
+          return a.round - b.round || a.matchNumber - b.matchNumber;
+        });
+
+      const waitingCount = readyMatches.filter(m => m.status === 'ready').length;
+      document.getElementById('queueCountBadge').textContent = String(waitingCount);
+      document.getElementById('queueSummaryBadge').textContent = `${waitingCount} Maç Masaya Hazır`;
+
+      const container = document.getElementById('queueListContainer');
+      container.innerHTML = '';
+
+      if (readyMatches.length === 0) {
+        container.innerHTML = `
+          <div class="surface-card" style="grid-column:1 / -1;padding:48px 20px;text-align:center;">
+            <div style="font-size:1rem;font-weight:800;">Kuyrukta bekleyen maç kalmadı</div>
+            <p class="text-xs muted" style="margin:6px 0 0;">Tüm hazır eşleşmeler oynandı veya turnuva tamamlandı.</p>
+          </div>
+        `;
+        return;
+      }
+
+      readyMatches.forEach(m => {
+        const tbl = getTableByMatchId(m.id);
+        const isLive = Boolean(tbl);
+        const card = document.createElement('div');
+        card.className = `queue-card${isLive ? ' is-live' : ''}`;
+
+        let liveScoreBadge = '';
+        if (isLive) {
+          const { p1S, p2S } = getLiveSetCounts(tbl.live);
+          liveScoreBadge = `<span class="status-badge live"><span class="dot-live live-dot" style="width:6px;height:6px;"></span>${escapeHtml(tbl.name)} (${p1S}-${p2S} • ${tbl.live.currentSetP1}-${tbl.live.currentSetP2})</span>`;
+        } else {
+          liveScoreBadge = `<span class="status-badge ready">Hazır</span>`;
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="flex-between" style="margin-bottom:10px;">
+              <span class="text-xs font-bold" style="color:${isLive ? 'var(--live-color)' : 'var(--p1-color)'};text-transform:uppercase;letter-spacing:0.05em;">
+                ${escapeHtml(getRoundLabel(m.round, state.totalRounds))} • Maç #${m.matchNumber}
+              </span>
+              ${liveScoreBadge}
+            </div>
+            <div class="queue-players-box">
+              <div class="flex-between">
+                <span class="text-sm font-bold">${escapeHtml(m.player1)}</span>
+                <span class="text-xs font-bold" style="color:var(--p1-color);">O1</span>
+              </div>
+              <div style="border-top:1px solid var(--border-subtle);"></div>
+              <div class="flex-between">
+                <span class="text-sm font-bold">${escapeHtml(m.player2)}</span>
+                <span class="text-xs font-bold" style="color:var(--p2-color);">O2</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-row">
+            <button onclick="startLiveMatch('${m.id}')" class="btn ${isLive ? 'btn-live' : 'btn-primary'}" style="flex:1;">
+              ${isLive ? `Canlı Skora Dön (${escapeHtml(tbl.name)})` : 'Masaya Al (Başlat)'}
+            </button>
+            <button onclick="openMatchModal('${m.id}')" class="btn" title="Hızlı skor gir">Hızlı Skor</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /*************************************************************************
+     * 13. GENEL ARAYÜZ GÜNCELLEME
+     *************************************************************************/
+    function renderHeader() {
+      const titleInput = document.getElementById('tournamentTitleInput');
+      if (document.activeElement !== titleInput) {
+        titleInput.value = state.title;
+      }
+
+      document.getElementById('headerRuleBadge').textContent =
+        `${state.bestOf === 1 ? '1 Set' : 'Bo' + state.bestOf} • ${state.rules.pointsToWin} Sayı`;
+
+      [1, 3, 5, 7].forEach(bo => {
+        const btn = document.getElementById(`btnBo${bo}`);
+        if (btn) btn.classList.toggle('active', state.bestOf === bo);
+      });
+
+      const realMatches = state.matches.filter(m => m.player1 !== 'BAY' && m.player2 !== 'BAY');
+      const total = realMatches.length;
+      const done = realMatches.filter(m => m.status === 'completed').length;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('progressBarFill').style.width = `${pct}%`;
+      document.getElementById('progressText').textContent = `${done} / ${total} Maç (%${pct})`;
+    }
+
+    function renderAll() {
+      renderHeader();
+      renderBracket();
+      renderLiveScoreboard();
+      renderQueue();
+    }
+
+    /*************************************************************************
+     * 14. BAŞLANGIÇ (INIT)
+     *************************************************************************/
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initSound();
+      loadState();
+      renderAll();
+      switchTab('bracket');
+      startLiveTicker();
+    });
+  </script>
+</body>
+</html>
